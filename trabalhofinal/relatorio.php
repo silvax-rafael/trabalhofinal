@@ -14,9 +14,9 @@
         <img src="fundo.png" alt="Logo" class="img">
     </div>
     <nav class="menu">
-        <a href="#">HOME</a>
-        <a href="#">INFORMAÇÕES PESSOAIS</a>
-        <a href="#">RELATÓRIO</a>
+        <a href="home.php">HOME</a>
+        <a href="informacoes.php">INFORMAÇÕES PESSOAIS</a>
+        <a href="relatorio.php">RELATÓRIO</a>
         <a href="#">SOBRE</a>
     </nav>
 </header>

@@ -14,7 +14,7 @@
       <img src="fundo.png" alt="Logo do sistema" class="img">
     </div>
     <nav class="menu">
-      <a href="index.php"><i class="fas fa-home"></i> home</a>
+      <a href="home.php"><i class="fas fa-home"></i> home</a>
       <a href="informacoes.php"><i class="fas fa-user"></i> inf. pessoais</a>
       <a href="relatorio.php"><i class="fas fa-file-alt"></i> relatório</a>
     </nav>
