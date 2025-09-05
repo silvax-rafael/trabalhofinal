@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: loginform.php");
+    exit;
+}
+
 if(isset($_GET['id'])) {
     $id = intval($_GET['id']);
 
@@ -9,10 +15,11 @@ if(isset($_GET['id'])) {
     $conn = new mysqli($host, $user, $pass, $db);
     if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
-    // Atualiza o status e registra a hora atual
     $agora = date('Y-m-d H:i:s');
-    $sql = "UPDATE medicamentos SET status='Em dia', ultima_tomada='$agora' WHERE id = $id";
-    $conn->query($sql);
+    $stmt = $conn->prepare("UPDATE medicamentos SET status='Em dia', ultima_tomada=? WHERE id=? AND usuario_id=?");
+    $stmt->bind_param("sii", $agora, $id, $_SESSION['usuario_id']);
+    $stmt->execute();
+    $stmt->close();
     $conn->close();
 
     header("Location: home.php");
