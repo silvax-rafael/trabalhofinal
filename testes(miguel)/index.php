@@ -1,3 +1,6 @@
+<?php
+// Não colocar redirecionamento automático para home.php aqui
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -40,7 +43,7 @@
       </label>
 
       <button type="submit">ENVIAR</button>
-      <a href="login.php">Já tenho uma conta</a>
+      <a href="loginform.php">Já tenho uma conta</a>
     </form>
   </main>
 

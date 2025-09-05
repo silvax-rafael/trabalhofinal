@@ -15,11 +15,12 @@
   --shadow: 0 6px 18px rgba(71, 162, 204, 0.08);
 }
 
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -100,7 +101,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* =================== HEADER =================== */
+/* Header do card */
 .header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
@@ -186,9 +187,9 @@ tbody tr:hover td {
   transform: translateY(-2px);
 }
 
-.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary { background: var(--primary); color:#fff; }
 .btn-primary:hover { background: #2563eb; }
-.btn-danger { background: var(--danger); color: #fff; }
+.btn-danger { background: var(--danger); color:#fff; }
 .btn-danger:hover { background: #dc2626; }
 
 /* =================== RESPONSIVIDADE =================== */

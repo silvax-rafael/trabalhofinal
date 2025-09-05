@@ -1,40 +1,30 @@
 <?php
-// Configuração do banco
-$host = "localhost";
-$db   = "controle_medicamento";
-$user = "root";
-$pass = "";
-
-$conn = new mysqli($host, $user, $pass, $db);
-
-// Verificar conexão
+// Conexão com o banco
+$conn = new mysqli("localhost", "root", "", "controle_medicamento");
 if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
+    die("Erro de conexão: " . $conn->connect_error);
 }
 
-// Verifica se o formulário foi enviado
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $nome = trim($_POST['nome']);
-    $data = $_POST['data'];
-    $usuario = trim($_POST['nomedeusuario']);
-    $senha = $_POST['senha'];
-    $confirmarsenha = $_POST['confirmarsenha'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome      = $_POST['nome'];
+    $data      = $_POST['data']; // data de nascimento
+    $usuario   = $_POST['nomedeusuario'];
+    $senha     = $_POST['senha'];
+    $confirma  = $_POST['confirmarsenha'];
 
-    // Valida senha
-    if ($senha !== $confirmarsenha) {
-        die("Erro: as senhas não coincidem. <a href='index.php'>Voltar</a>");
+    if ($senha !== $confirma) {
+        die("As senhas não conferem!");
     }
 
-    // Criptografa a senha
-    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
 
-    // Prepara inserção
+    // Usando prepared statement
     $stmt = $conn->prepare("INSERT INTO usuarios (nome, data_nascimento, usuario, senha) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $nome, $data, $usuario, $senhaHash);
+    $stmt->bind_param("ssss", $nome, $data, $usuario, $senha_hash);
 
     if ($stmt->execute()) {
-        // Cadastro OK -> redireciona para home
-        header("Location: home.php");
+        // Cadastro realizado → redireciona para loginform.php
+        header("Location: loginform.php");
         exit;
     } else {
         echo "Erro ao cadastrar: " . $stmt->error;
