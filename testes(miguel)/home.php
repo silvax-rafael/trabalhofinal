@@ -35,7 +35,10 @@ $hora_atual = new DateTime(); // hora atual
   <div class="card">
     <div class="header">
       <div class="title">Controle de Medicação</div>
-      <a href="novomedicamento.php" class="btn btn-primary">+ Novo Medicamento</a>
+      <!-- Botão corrigido -->
+      <button class="btn btn-primary" onclick="window.location.href='novomedicamento.php'">
+        Novo Medicamento
+      </button>
     </div>
 
     <div class="table-wrap">

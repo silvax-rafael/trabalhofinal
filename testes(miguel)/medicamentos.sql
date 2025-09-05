@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 03/09/2025 às 15:50
+-- Tempo de geração: 05/09/2025 às 14:01
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -42,9 +42,12 @@ CREATE TABLE `medicamentos` (
 --
 
 INSERT INTO `medicamentos` (`id`, `nome`, `dose`, `horario`, `data_cadastro`, `status`, `ultima_tomada`) VALUES
-(4, 'Fluoxetina', '20 mg', '2025-09-03 17:00:00', '2025-09-03 13:35:19', 'Pendente', NULL),
-(7, 'Cefalexina', '500 mg', '2025-09-03 18:00:00', '2025-09-03 13:46:51', 'Pendente', NULL),
-(8, 'Domperidona', '10 mg', '2025-09-04 10:00:00', '2025-09-03 13:48:37', 'Pendente', NULL);
+(12, 'Cefalexina', '500 mg', '2025-09-03 19:08:00', '2025-09-03 14:08:12', 'Em dia', '2025-09-03 19:13:10'),
+(13, 'Doxiciclina', '500 mg', '2025-09-05 11:08:00', '2025-09-03 14:08:28', 'Em dia', '2025-09-05 12:24:06'),
+(14, 'Domperidona', '100 mg', '2025-09-13 18:12:00', '2025-09-03 14:08:47', 'Em dia', '2025-09-05 12:24:05'),
+(15, 'Paracetamol', '750 mg', '2025-09-04 10:40:00', '2025-09-03 17:15:40', 'Em dia', '2025-09-05 12:24:03'),
+(16, 'Fluoxetina', '500 mg', '2025-09-05 07:23:00', '2025-09-05 10:23:30', 'Em dia', '2025-09-05 12:23:53'),
+(17, 'Cefalexina', '100 mg', '2025-09-06 09:24:00', '2025-09-05 10:24:25', 'Pendente', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -64,7 +67,7 @@ ALTER TABLE `medicamentos`
 -- AUTO_INCREMENT de tabela `medicamentos`
 --
 ALTER TABLE `medicamentos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
