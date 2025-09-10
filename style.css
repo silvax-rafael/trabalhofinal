@@ -1,16 +1,16 @@
 :root {
-  --bg: #f0faff;
-  --bg-light: #e6f8fc;
-  --card: #ffffff;
-  --muted: #64748b;
-  --text: #1e293b;
-  --border: #dbeafe;
-  --primary: #3d94aa;
-  --primary-dark: #4dcfe8;
-  --primary-light: #b6f0fa;
-  --success: #16a34a;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  --bg: #f0faff;          /* fundo geral */
+  --bg-light: #e6f8fc;    /* fundo leve */
+  --card: #ffffff;        /* fundo dos cards */
+  --muted: #64748b;       /* texto apagado */
+  --text: #1e293b;        /* texto principal */
+  --border: #dbeafe;      /* borda */
+  --primary: #3d94aaff;   /* azul principal */
+  --primary-dark: #4dcfe8;/* azul mais forte */
+  --primary-light: #b6f0fa;/* azul claro */
+  --success: #16a34a;     /* verde */
+  --warning: #f59e0b;     /* amarelo */
+  --danger: #ef4444;      /* vermelho */
   --radius: 14px;
   --shadow: 0 6px 18px rgba(71, 162, 204, 0.08);
 }
@@ -20,13 +20,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
 }
 
 body {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--primary), var(--bg));
+  background: linear-gradient(180deg, #3d94aaff, var(--bg));
   color: var(--text);
 }
 
@@ -52,6 +52,24 @@ body {
   display: block;
   border-radius: 8px;
 }
+
+.btn-sair {
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: #ef4444; /* vermelho */
+  text-align: center;
+  transition: all 0.25s;
+}
+
+.btn-sair:hover {
+  background: #dc2626; /* vermelho mais escuro */
+  transform: translateY(-2px);
+}
+
 
 .menu {
   display: flex;
@@ -82,7 +100,7 @@ body {
 
 /* =================== CONTEÚDO =================== */
 .main {
-  margin-left: 240px;
+  margin-left: 240px; /* espaço para sidebar */
   flex: 1;
   padding: 32px;
 }
@@ -101,7 +119,7 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Header do card */
+/* =================== HEADER =================== */
 .header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
@@ -184,12 +202,13 @@ tbody tr:hover td {
 
 .btn:hover {
   background: #1e293b;
+  color: #fff;
   transform: translateY(-2px);
 }
 
-.btn-primary { background: var(--primary); color:#fff; }
+.btn-primary { background: var(--primary); color: #fff; }
 .btn-primary:hover { background: #2563eb; }
-.btn-danger { background: var(--danger); color:#fff; }
+.btn-danger { background: var(--danger); color: #fff; }
 .btn-danger:hover { background: #dc2626; }
 
 /* =================== RESPONSIVIDADE =================== */

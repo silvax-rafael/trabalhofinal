@@ -1,19 +1,13 @@
 <?php
-session_start();
-
-// Protege a página
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: loginform.php");
-    exit;
-}
-
-// Conexão com o banco
 $host = "localhost";
 $db   = "controle_medicamento";
 $user = "root";
 $pass = "";
 $conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
+
+if ($conn->connect_error) { 
+    die("Conexão falhou: " . $conn->connect_error); 
+}
 
 $sql = "SELECT * FROM medicamentos ORDER BY data_cadastro DESC";
 $result = $conn->query($sql);
@@ -34,12 +28,10 @@ $hora_atual = new DateTime(); // hora atual
   <img src="fundo.png" alt="Logo Sistema">
   <nav class="menu">
     <a href="home.php" class="active">🏠 HOME</a>
-    <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
+    <a href="trabalhofinal/informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
     <a href="relatorio.php">📊 RELATÓRIO</a>
     <a href="#">ℹ️ SOBRE</a>
-    <form action="logout.php" method="POST" style="margin-top: 10px;">
-      <button type="submit" class="btn btn-danger" style="width:100%;">🚪 SAIR</button>
-    </form>
+    <a href="logout.php" class="btn-sair">🚪 SAIR</a>
   </nav>
 </aside>
 
@@ -84,6 +76,7 @@ $hora_atual = new DateTime(); // hora atual
                           $status_text = 'Pendente';
                       }
                   } else {
+                      // Ainda não foi tomado
                       if ($hora_atual > $horario_medicamento) {
                           $status_class = 'atrasado';
                           $status_text = 'Atrasado';
@@ -117,6 +110,7 @@ $hora_atual = new DateTime(); // hora atual
                   </tr>";
               }
           } else {
+              // Mensagem quando não há medicamentos
               echo "<tr>
                       <td colspan='5' style='text-align:center; color: var(--muted); padding: 20px;'>
                           Nenhum medicamento cadastrado
