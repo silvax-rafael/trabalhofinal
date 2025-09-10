@@ -10,7 +10,7 @@
 
   <!-- Cabeçalho -->
   <header>
-    <img src="fundo.png" alt="Logo do Sistema" class="img">
+    <img src="trabalhofinal/fundo.png" alt="Logo do Sistema" class="img">
     <h1 class="titulo">Sistema de Controle de Medicação</h1>
   </header>
 
@@ -39,8 +39,10 @@
         <input type="password" name="confirmarsenha" placeholder="CONFIRMAR SENHA" required>
       </label>
 
-      <button type="submit">ENVIAR</button>
-      <a href="login.php">Já tenho uma conta</a>
+      <button type="button" onclick="window.location.href='trabalhofinal/login.php'">ENVIAR</button>
+
+      <button type="button" onclick="window.location.href='trabalhofinal/login.php'">Ja tenho uma conta</button>
+
     </form>
   </main>
 
