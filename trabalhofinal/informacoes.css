@@ -1,19 +1,15 @@
-/* ====== Variáveis de cores ====== */
 :root {
   --primary: #85E4F8;
   --primary-dark: #4dcfe8;
-  --primary-light: #b6f0fa;
   --bg: #f9fbfc;
   --text: #1e293b;
-  --muted: #64748b;
   --border: #dbeafe;
   --card: #ffffff;
-  --bg-light: #eef9fc;
   --radius: 14px;
-  --shadow: 0 6px 20px rgba(0,0,0,0.1);
+  --shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* ====== Reset ====== */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -21,16 +17,15 @@
   font-family: system-ui, sans-serif;
 }
 
-/* ====== Body ====== */
 body {
-  background: linear-gradient(180deg, #3d94aaff, var(--bg));
-  color: var(--text);
-  min-height: 100vh;
+  background: var(--bg);
   display: flex;
+  min-height: 100vh;
   flex-direction: column;
+  color: var(--text);
 }
 
-/* ====== Sidebar ====== */
+/* Sidebar */
 .sidebar {
   width: 240px;
   background: var(--card);
@@ -70,26 +65,25 @@ body {
 }
 
 .menu a:hover {
-  background: var(--bg-light);
-  color: var(--primary);
+  background: var(--primary);
+  color: #fff;
 }
 
 .menu a.active {
-  background: rgb(61,148,170);
+  background: var(--primary-dark);
   color: #fff;
   font-weight: 600;
 }
 
-/* Botão Sair */
+/* Botão sair */
 .btn-sair {
   padding: 12px 14px;
   border-radius: 10px;
-  text-decoration: none;
-  color: white;
-  font-weight: 600;
-  font-size: 0.95rem;
+  border: none;
   background: #ef4444;
-  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.25s;
 }
 
@@ -98,17 +92,16 @@ body {
   transform: translateY(-2px);
 }
 
-/* ====== Main ====== */
+/* Main */
 main {
   flex: 1;
+  margin-left: 240px;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px 20px;
-  margin-left: 240px; /* Espaço da sidebar */
 }
 
-/* ====== Box de informações ====== */
 .box {
   background: var(--card);
   border-radius: var(--radius);
@@ -120,12 +113,6 @@ main {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.box:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(0,0,0,0.15);
 }
 
 .box h2 {
@@ -134,40 +121,24 @@ main {
   font-weight: 700;
   font-size: 1.5rem;
   color: var(--primary-dark);
-  letter-spacing: 1px;
 }
 
-/* ====== Linhas de informação ====== */
 .linha {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  border-top: 1px solid var(--border);
   padding: 14px 12px;
+  border-top: 1px solid var(--border);
   font-size: 1rem;
-  color: var(--text);
-  transition: background 0.2s;
 }
 
 .linha:first-of-type {
   border-top: none;
 }
 
-.linha:hover {
-  background: var(--primary-light);
-  color: var(--text);
-  border-radius: var(--radius);
-}
-
-.linha span:first-child {
-  font-weight: 600;
-  color: var(--muted);
-}
-
-/* ====== Footer ====== */
+/* Footer */
 .footer {
   margin-left: 240px;
-  background: rgb(61,148,170);
+  background: var(--primary-dark);
   height: 60px;
   display: flex;
   justify-content: center;
@@ -179,36 +150,16 @@ main {
   border-top-right-radius: var(--radius);
 }
 
-/* ====== Responsividade ====== */
+/* Responsividade */
 @media (max-width: 768px) {
-  main {
+  main, .footer {
     margin-left: 0;
-    padding: 20px;
   }
-
   .sidebar {
-    width: 200px;
-  }
-
-  .menu a {
-    font-size: 0.9rem;
-  }
-
-  .box {
-    padding: 24px 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 12px;
-  }
-
-  .box h2 {
-    font-size: 1.3rem;
-  }
-
-  .linha {
-    font-size: 0.9rem;
+    width: 100%;
+    position: relative;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px;
   }
 }
