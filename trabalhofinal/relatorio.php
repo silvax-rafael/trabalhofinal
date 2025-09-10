@@ -142,7 +142,7 @@ table th, table td {
     <a href="home.php">🏠 HOME</a>
     <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
     <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
-    <a href="#">ℹ️ SOBRE</a>
+    <a href="sobre.php">ℹ️ SOBRE</a>
     <form action="logout.php" method="POST">
       <button type="submit" class="btn btn-danger" style="margin-top:20px;">Sair</button>
     </form>
