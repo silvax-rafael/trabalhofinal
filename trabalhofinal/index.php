@@ -1,3 +1,6 @@
+<?php
+// Não colocar redirecionamento automático para home.php aqui
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -17,7 +20,7 @@
   <!-- Cadastro -->
   <main>
     <h2 class="titulo2">Cadastro</h2>
-    <form class="box" action="login.php" method="POST">
+    <form class="box" action="cadastro.php" method="POST">
 
       <label>
         <input type="text" name="nome" placeholder="NOME" required>
@@ -40,7 +43,7 @@
       </label>
 
       <button type="submit">ENVIAR</button>
-      <a href="login.php">Já tenho uma conta</a>
+      <a href="loginform.php">Já tenho uma conta</a>
     </form>
   </main>
 

@@ -79,16 +79,17 @@ $conn->close();
 <body>
 
 <!-- ====== HEADER ====== -->
-<aside class="sidebar">
-    <img src="fundo.png" alt="Logo Sistema">
+<header class="header">
+    <div class="logo">
+        <img src="fundo.png" alt="Logo" class="img">
+    </div>
     <nav class="menu">
-      <a href="home.php" class="active">🏠 HOME</a>
-      <a href="informacoes.php" class="active">👤 INFORMAÇÕES PESSOAIS</a>
-      <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
-      <a href="sobre.php" class="active">ℹ️ SOBRE</a>
-      <a href="logout.php" class="btn-sair">🚪 SAIR</a>
+        <a href="home.php">HOME</a>
+        <a href="informacoes.php">INFORMAÇÕES PESSOAIS</a>
+        <a href="relatorio.php" class="active">RELATÓRIO</a>
+        <a href="#">SOBRE</a>
     </nav>
-  </aside>
+</header>
 
 <!-- ====== CONTEÚDO PRINCIPAL ====== -->
 <main class="container">

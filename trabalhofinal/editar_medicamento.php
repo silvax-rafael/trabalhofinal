@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: loginform.php");
+    exit;
+}
+
 $host = "localhost";
 $db   = "controle_medicamento";
 $user = "root";
@@ -6,28 +12,34 @@ $pass = "";
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
-// Se o formulário foi enviado
+// Atualiza medicamento
 if(isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $nome = $_POST['nome'];
     $dose = $_POST['dose'];
     $horario = $_POST['horario'];
 
-    $sql = "UPDATE medicamentos SET nome='$nome', dose='$dose', horario='$horario' WHERE id=$id";
-    $conn->query($sql);
+    $stmt = $conn->prepare("UPDATE medicamentos SET nome=?, dose=?, horario=? WHERE id=? AND usuario_id=?");
+    $stmt->bind_param("sssii", $nome, $dose, $horario, $id, $_SESSION['usuario_id']);
+    $stmt->execute();
+    $stmt->close();
     $conn->close();
     header("Location: home.php");
     exit;
 }
 
-// Se veio pelo GET, mostrar formulário de edição
+// Formulário de edição
 if(isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $res = $conn->query("SELECT * FROM medicamentos WHERE id=$id");
+    $stmt = $conn->prepare("SELECT * FROM medicamentos WHERE id=? AND usuario_id=?");
+    $stmt->bind_param("ii", $id, $_SESSION['usuario_id']);
+    $stmt->execute();
+    $res = $stmt->get_result();
     $med = $res->fetch_assoc();
+    $stmt->close();
 }
+$conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
