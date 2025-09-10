@@ -1,0 +1,128 @@
+/* Paleta baseada em #85E4F8 */
+:root {
+  --primary: #85E4F8;
+  --primary-dark: #4dcfe8;
+  --primary-light: #b6f0fa;
+  --bg: linear-gradient(135deg, #e0f7fa, #f9fbfc);
+  --text: #1e293b;
+  --muted: #64748b;
+  --border: #dbeafe;
+  --radius: 14px;
+  --shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 16px;
+}
+
+/* Container principal */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+/* Caixa de formulário */
+.box {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px 26px;
+  box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.6s ease;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Título */
+.titulo2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+/* Inputs */
+.box input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  background: #fff;
+}
+
+.box input:focus {
+  outline: none;
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 4px var(--primary-light);
+}
+
+/* Botão */
+button {
+  background: var(--primary);
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.25s;
+  color: #fff;
+}
+
+button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+button:active {
+  transform: scale(0.96);
+}
+
+/* Link */
+a {
+  text-align: center;
+  display: block;
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: var(--muted);
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* Imagem */
+.img {
+  width: 160px;
+    box-shadow: var(--shadow);
+}
