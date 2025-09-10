@@ -37,7 +37,7 @@ $hora_atual = new DateTime();
     <a href="home.php" class="active">🏠 HOME</a>
     <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
     <a href="relatorio.php">📊 RELATÓRIO</a>
-    <a href="#">ℹ️ SOBRE</a>
+    <a href="sobre.php">ℹ️ SOBRE</a>
     <form action="logout.php" method="POST">
       <button type="submit" class="btn btn-danger" style="margin-top:20px;">Sair</button>
     </form>
