@@ -5,10 +5,6 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Inclui o Dompdf
-require __DIR__ . '/vendor/autoload.php';
-use Dompdf\Dompdf;
-
 $host = "localhost";
 $db   = "controle_medicamento";
 $user = "root";
@@ -77,52 +73,6 @@ while($row = $result->fetch_assoc()) {
 }
 
 $conn->close();
-
-// Gerar PDF
-if(isset($_POST['gerar_pdf'])) {
-    $dompdf = new Dompdf();
-
-    $html = '<h1>Relatório de Medicação</h1>';
-    $html .= '<div style="margin-bottom:20px;">
-        <strong>Total de medicamentos:</strong> '.$total.' |
-        <strong>Doses tomadas:</strong> '.$tomados.' |
-        <strong>Pendentes:</strong> '.$pendentes.' |
-        <strong>Atrasadas:</strong> '.$atrasados.'
-    </div>';
-
-    $html .= '<table border="1" cellspacing="0" cellpadding="5" width="100%">
-        <thead>
-            <tr style="background:#85E4F8; color:#fff;">
-                <th>Medicamento</th>
-                <th>Dosagem</th>
-                <th>Horário</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>';
-
-    foreach($medicamentos as $med){
-        $cor = '#fff';
-        if($med['status_class']=='ok') $cor = '#bbf7d0';
-        if($med['status_class']=='pendente') $cor = '#fde68a';
-        if($med['status_class']=='atrasado') $cor = '#fecaca';
-
-        $html .= '<tr>
-            <td>'.$med['nome'].'</td>
-            <td>'.$med['dose'].'</td>
-            <td>'.$med['horario'].'</td>
-            <td style="background:'.$cor.'; text-align:center;">'.$med['status_text'].'</td>
-        </tr>';
-    }
-
-    $html .= '</tbody></table>';
-
-    $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
-    $dompdf->stream('relatorio_medicacao.pdf', ['Attachment' => true]);
-    exit;
-}
 ?>
 
 <!DOCTYPE html>
@@ -131,7 +81,7 @@ if(isset($_POST['gerar_pdf'])) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Relatório de Medicação</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="relatorio.css">
 </head>
 <body>
 
@@ -142,20 +92,16 @@ if(isset($_POST['gerar_pdf'])) {
     <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
     <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
     <a href="sobre.php">ℹ️ SOBRE</a>
-
-    <form method="POST">
-      <button type="submit" name="gerar_pdf" class="btn btn-primary" style="margin: 10px 0;">Gerar PDF</button>
-    </form>
-
     <form action="logout.php" method="POST">
-      <button type="submit" class="btn btn-danger" style="margin-top:20px;">Sair</button>
+      <button type="submit" class="btn-sair">Sair</button>
     </form>
   </nav>
 </aside>
 
-<main class="main">
+<main>
     <h1>Relatório de Medicação</h1>
 
+    <!-- Cards resumo -->
     <section class="cards">
         <div class="card"><h2><?= $total ?></h2><p>Total de medicamentos</p></div>
         <div class="card"><h2><?= $tomados ?></h2><p>Doses tomadas</p></div>
@@ -163,6 +109,7 @@ if(isset($_POST['gerar_pdf'])) {
         <div class="card"><h2><?= $atrasados ?></h2><p>Atrasadas</p></div>
     </section>
 
+    <!-- Tabela detalhada -->
     <section>
         <table>
             <thead>
@@ -180,7 +127,7 @@ if(isset($_POST['gerar_pdf'])) {
                             <td><?= $med['nome'] ?></td>
                             <td><?= $med['dose'] ?></td>
                             <td><?= $med['horario'] ?></td>
-                            <td><span class="badge <?= $med['status_class'] ?>"><?= $med['status_text'] ?></span></td>
+                            <td><span class="status <?= $med['status_class'] ?>"><?= $med['status_text'] ?></span></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
