@@ -5,8 +5,8 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-if(isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+if(isset($_POST['id'])) {
+    $id = intval($_POST['id']);
 
     $host = "localhost";
     $db   = "controle_medicamento";
@@ -16,9 +16,13 @@ if(isset($_GET['id'])) {
     if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
     $agora = date('Y-m-d H:i:s');
-    $stmt = $conn->prepare("UPDATE medicamentos SET status='Em dia', ultima_tomada=? WHERE id=? AND usuario_id=?");
+
+    $stmt = $conn->prepare("UPDATE medicamentos 
+                            SET status='Em dia', ultima_tomada=? 
+                            WHERE id=? AND usuario_id=?");
     $stmt->bind_param("sii", $agora, $id, $_SESSION['usuario_id']);
     $stmt->execute();
+
     $stmt->close();
     $conn->close();
 

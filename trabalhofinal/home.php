@@ -20,7 +20,6 @@ $stmt->execute();
 $result = $stmt->get_result();
 $hora_atual = new DateTime();
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -66,21 +65,13 @@ $hora_atual = new DateTime();
           <?php
           if ($result->num_rows > 0) {
               while($row = $result->fetch_assoc()) {
-                  $horario_medicamento = new DateTime($row['horario']);
-
-                  if($row['ultima_tomada']) {
-                      $ultima = new DateTime($row['ultima_tomada']);
-                      if ($ultima >= $horario_medicamento) {
-                          $status_class = 'ok';
-                          $status_text = 'Em dia';
-                      } elseif ($hora_atual > $horario_medicamento) {
-                          $status_class = 'atrasado';
-                          $status_text = 'Atrasado';
-                      } else {
-                          $status_class = 'pendente';
-                          $status_text = 'Pendente';
-                      }
+                  
+                  // Definir status
+                  if ($row['status'] === 'Em dia') {
+                      $status_class = 'ok';
+                      $status_text = 'Em dia';
                   } else {
+                      $horario_medicamento = new DateTime($row['horario']);
                       if ($hora_atual > $horario_medicamento) {
                           $status_class = 'atrasado';
                           $status_text = 'Atrasado';
@@ -97,7 +88,7 @@ $hora_atual = new DateTime();
                     <td><span class='badge $status_class'>$status_text</span></td>
                     <td>
                       <div class='actions'>
-                        <form action='tomar_medicamento.php' method='GET' style='display:inline;'>
+                        <form action='tomar_medicamento.php' method='POST' style='display:inline;'>
                           <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn btn-primary'>💊 Tomar</button>
                         </form>
