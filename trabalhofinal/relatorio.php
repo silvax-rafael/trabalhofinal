@@ -167,7 +167,7 @@ table th, table td {
                 <tr>
                     <th>Medicamento</th>
                     <th>Dosagem</th>
-                    <th>Próxima dose</th>
+                    <th>Horário</th>
                     <th>Status</th>
                 </tr>
             </thead>
