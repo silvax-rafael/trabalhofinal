@@ -22,55 +22,68 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: system-ui, sans-serif;
 }
 
+/* Body */
 body {
-  display: flex;
-  min-height: 100vh;
-  background-color: var(--bg);
+  background: linear-gradient(180deg, #3d94aaff, var(--bg));
   color: var(--text);
+  min-height: 100vh;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Sidebar */
 .sidebar {
   width: 240px;
-  background-color: var(--bg-light);
-  padding: 20px;
-  display: flex;
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 24px 16px;
+  display: flex ;
   flex-direction: column;
-  align-items: center;
+  gap: 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  box-shadow: var(--shadow);
 }
 
 .sidebar img {
-  width: 120px;
-  margin-bottom: 30px;
+  width: 140px;
+  margin: 0 auto 20px;
+  display: block;
+  border-radius: 8px;
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
+  gap: 12px;
 }
 
 .menu a {
-  color: var(--text);
+  padding: 12px 14px;
+  border-radius: 10px;
   text-decoration: none;
-  padding: 12px;
-  border-radius: 8px;
-  transition: 0.3s;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.25s;
 }
 
 .menu a:hover {
-  background-color: var(--accent);
-  color: #fff;
+  background: var(--bg-light);
+  color: var(--primary);
 }
 
 .menu a.active {
-  background: var(--primary);
+  background: rgb(61, 148, 170);
   color: #fff;
   font-weight: 600;
+
 }
 
 .btn-sair {

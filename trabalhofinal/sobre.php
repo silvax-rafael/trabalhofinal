@@ -20,7 +20,6 @@
       <a href="logout.php" class="btn-sair">🚪 SAIR</a>
     </nav>
   </aside>
-
   <!-- Conteúdo principal -->
   <main class="conteudo">
     <h1>Sobre o Sistema</h1>
