@@ -44,7 +44,7 @@
       </label>
 
       <button type="submit">ENVIAR</button>
-      <a href="loginform.php">Já tenho uma conta</a>
+      <a href="trabalhofinal/loginform.php">Já tenho uma conta</a>
     </form>
   </main>
 
