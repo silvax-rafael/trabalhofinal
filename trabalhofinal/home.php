@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: loginform.php");
+    exit;
+}
+
 $host = "localhost";
 $db   = "controle_medicamento";
 $user = "root";
@@ -6,10 +12,13 @@ $pass = "";
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
-$sql = "SELECT * FROM medicamentos ORDER BY data_cadastro DESC";
-$result = $conn->query($sql);
-
-$hora_atual = new DateTime(); // hora atual
+$usuario_id = $_SESSION['usuario_id'];
+$sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY data_cadastro DESC";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$hora_atual = new DateTime();
 ?>
 
 <!DOCTYPE html>
@@ -21,22 +30,27 @@ $hora_atual = new DateTime(); // hora atual
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <aside class="sidebar">
   <img src="fundo.png" alt="Logo Sistema">
   <nav class="menu">
     <a href="home.php" class="active">🏠 HOME</a>
-    <a href="informacoes.php" class="active">👤 INFORMAÇÕES PESSOAIS</a>
-    <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
-    <a href="#" class="active">ℹ️ SOBRE</a>
-    <a href="logout.php" class="btn-sair">🚪 SAIR</a>
+    <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
+    <a href="relatorio.php">📊 RELATÓRIO</a>
+    <a href="sobre.php">ℹ️ SOBRE</a>
+    <form action="logout.php" method="POST">
+      <button type="submit" class="btn btn-danger" style="margin-top:20px;">Sair</button>
+    </form>
   </nav>
 </aside>
 
 <main class="main">
   <div class="card">
-    <div class="header">
+    <div class="header" style="display:flex; justify-content:space-between; align-items:center;">
       <div class="title">Controle de Medicação</div>
-      <a href="novomedicamento.php" class="btn btn-primary">+ Novo Medicamento</a>
+      <form action="novomedicamento.php" method="GET" style="display:inline;">
+          <button type="submit" class="btn btn-primary">+ Novo Medicamento</button>
+      </form>
     </div>
 
     <div class="table-wrap">
@@ -45,7 +59,7 @@ $hora_atual = new DateTime(); // hora atual
           <tr>
             <th>Nome do medicamento</th>
             <th>Dosagem</th>
-            <th>Próxima dose</th>
+            <th>Horário</th>
             <th>Status</th>
             <th style="width: 280px;">Ação</th>
           </tr>
@@ -56,11 +70,7 @@ $hora_atual = new DateTime(); // hora atual
               while($row = $result->fetch_assoc()) {
                   $horario_medicamento = new DateTime($row['horario']);
 
-                  // Lógica de status considerando ultima_tomada e horario
-                  if($row['status'] == 'Em dia') {
-                      $status_class = 'ok';
-                      $status_text = 'Em dia';
-                  } elseif ($row['ultima_tomada']) {
+                  if($row['ultima_tomada']) {
                       $ultima = new DateTime($row['ultima_tomada']);
                       if ($ultima >= $horario_medicamento) {
                           $status_class = 'ok';
@@ -73,7 +83,6 @@ $hora_atual = new DateTime(); // hora atual
                           $status_text = 'Pendente';
                       }
                   } else {
-                      // Ainda não foi tomado
                       if ($hora_atual > $horario_medicamento) {
                           $status_class = 'atrasado';
                           $status_text = 'Atrasado';
@@ -92,22 +101,21 @@ $hora_atual = new DateTime(); // hora atual
                       <div class='actions'>
                         <form action='tomar_medicamento.php' method='GET' style='display:inline;'>
                           <input type='hidden' name='id' value='{$row['id']}'>
-                          <button type='submit' class='btn btn-primary'>Tomar</button>
+                          <button type='submit' class='btn btn-primary'>💊 Tomar</button>
                         </form>
                         <form action='editar_medicamento.php' method='GET' style='display:inline;'>
                           <input type='hidden' name='id' value='{$row['id']}'>
-                          <button type='submit' class='btn'>Editar</button>
+                          <button type='submit' class='btn'>✏️ Editar</button>
                         </form>
                         <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
                           <input type='hidden' name='id' value='{$row['id']}'>
-                          <button type='submit' class='btn btn-danger'>Excluir</button>
+                          <button type='submit' class='btn btn-danger'>🗑️ Excluir</button>
                         </form>
                       </div>
                     </td>
                   </tr>";
               }
           } else {
-              // Mensagem quando não há medicamentos
               echo "<tr>
                       <td colspan='5' style='text-align:center; color: var(--muted); padding: 20px;'>
                           Nenhum medicamento cadastrado
@@ -149,5 +157,6 @@ setInterval(verificarHorario, 60000);
     </div>
   </div>
 </main>
+
 </body>
 </html>
