@@ -55,7 +55,7 @@ $conn->close();
             <label><input type="password" name="senha" placeholder="SENHA" required></label>
             <button type="submit">ENTRAR</button>
         </form>
-        <a href="index.php">Criar nova conta</a>
+        <a href="../index.php">Criar nova conta</a>
     </div>
 </div>
 </body>
