@@ -123,7 +123,35 @@ $hora_atual = new DateTime();
                     </tr>";
           }
           $conn->close();
+
+          
           ?>
+
+          <!-- Conteúdo principal -->
+<main class="conteudo">
+  
+
+<!-- ✅ Script de lembrete -->
+<script>
+function verificarHorario() {
+  const agora = new Date();
+  const hora = agora.getHours();
+  const minuto = agora.getMinutes();
+
+  // Exemplo: alerta às 14:30
+  if (hora === 14 && minuto === 30) {
+    document.getElementById("alerta").innerText = "💊 Hora do seu remédio!";
+    alert("Hora de tomar o remédio!");
+  }
+}
+
+// Verifica a cada 1 minuto
+setInterval(verificarHorario, 60000);
+</script>
+
+</body>
+</html>
+
         </tbody>
       </table>
     </div>

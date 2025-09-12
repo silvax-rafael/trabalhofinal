@@ -14,7 +14,7 @@
 
   <!-- Cabeçalho -->
   <header>
-    <img src="fundo.png" alt="Logo do Sistema" class="img">
+    <img src="trabalhofinal/fundo.png" alt="Logo do Sistema" class="img">
     <h1 class="titulo">Sistema de Controle de Medicação</h1>
   </header>
 

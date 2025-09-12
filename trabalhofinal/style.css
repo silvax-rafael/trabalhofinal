@@ -1,20 +1,21 @@
 :root {
-  --bg: #f0faff;
-  --bg-light: #e6f8fc;
-  --card: #ffffff;
-  --muted: #64748b;
-  --text: #1e293b;
-  --border: #dbeafe;
-  --primary: #3d94aa;
-  --primary-dark: #4dcfe8;
-  --primary-light: #b6f0fa;
-  --success: #16a34a;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  --bg: #f0faff;          /* fundo geral */
+  --bg-light: #e6f8fc;    /* fundo leve */
+  --card: #ffffff;        /* fundo dos cards */
+  --muted: #64748b;       /* texto apagado */
+  --text: #1e293b;        /* texto principal */
+  --border: #dbeafe;      /* borda */
+  --primary: #3d94aaff;   /* azul principal */
+  --primary-dark: #4dcfe8;/* azul mais forte */
+  --primary-light: #b6f0fa;/* azul claro */
+  --success: #16a34a;     /* verde */
+  --warning: #f59e0b;     /* amarelo */
+  --danger: #ef4444;      /* vermelho */
   --radius: 14px;
   --shadow: 0 6px 18px rgba(71, 162, 204, 0.08);
 }
 
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
@@ -25,7 +26,7 @@
 body {
   display: flex;
   min-height: 100vh;
-  background: linear-gradient(180deg, var(--primary), var(--bg));
+  background: linear-gradient(180deg, #3d94aaff, var(--bg));
   color: var(--text);
 }
 
@@ -69,6 +70,7 @@ body {
   transform: translateY(-2px);
 }
 
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -98,7 +100,7 @@ body {
 
 /* =================== CONTEÚDO =================== */
 .main {
-  margin-left: 240px;
+  margin-left: 240px; /* espaço para sidebar */
   flex: 1;
   padding: 32px;
 }
@@ -200,6 +202,7 @@ tbody tr:hover td {
 
 .btn:hover {
   background: #1e293b;
+  color: #fff;
   transform: translateY(-2px);
 }
 
