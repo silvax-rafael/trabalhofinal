@@ -1,9 +1,13 @@
+<?php
+// Não colocar redirecionamento automático para home.php aqui
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="index.css">
+  <!-- truque do cache busting -->
+  <link rel="stylesheet" href="index.css?v=<?php echo time(); ?>">
   <title>Sistema de Controle de Medicação - Cadastro</title>
 </head>
 <body>
@@ -17,7 +21,7 @@
   <!-- Cadastro -->
   <main>
     <h2 class="titulo2">Cadastro</h2>
-    <form class="box" action="login.php" method="POST">
+    <form class="box" action="cadastro.php" method="POST">
 
       <label>
         <input type="text" name="nome" placeholder="NOME" required>
@@ -39,10 +43,8 @@
         <input type="password" name="confirmarsenha" placeholder="CONFIRMAR SENHA" required>
       </label>
 
-      <button type="button" onclick="window.location.href='trabalhofinal/login.php'">ENVIAR</button>
-
-      <button type="button" onclick="window.location.href='trabalhofinal/login.php'">Ja tenho uma conta</button>
-
+      <button type="submit">ENVIAR</button>
+      <a href="trabalhofinal/loginform.php">Já tenho uma conta</a>
     </form>
   </main>
 

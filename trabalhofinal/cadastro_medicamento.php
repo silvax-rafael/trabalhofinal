@@ -1,14 +1,18 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: loginform.php");
+    exit;
+}
+
 // Configurações do banco de dados
-$host = "localhost"; // geralmente localhost
+$host = "localhost";
 $db   = "controle_medicamento";
-$user = "root";      // seu usuário do MySQL
-$pass = "";          // sua senha do MySQL
+$user = "root";
+$pass = "";
 
-// Conexão com o banco
+// Conexão
 $conn = new mysqli($host, $user, $pass, $db);
-
-// Verifica conexão
 if ($conn->connect_error) {
     die("Conexão falhou: " . $conn->connect_error);
 }
@@ -18,10 +22,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome   = $_POST['nomedomedicamento'];
     $dose   = $_POST['dose'];
     $horario = $_POST['horario'];
+    $usuario_id = $_SESSION['usuario_id'];
 
-    // Prepara a query
-    $stmt = $conn->prepare("INSERT INTO medicamentos (nome, dose, horario) VALUES (?, ?, ?)");
-    $stmt->bind_param("sss", $nome, $dose, $horario);
+    // Insere medicamento vinculado ao usuário
+    $stmt = $conn->prepare("INSERT INTO medicamentos (nome, dose, horario, usuario_id) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssi", $nome, $dose, $horario, $usuario_id);
 
     if ($stmt->execute()) {
         echo "<script>alert('Medicamento cadastrado com sucesso!'); window.location.href='home.php';</script>";
