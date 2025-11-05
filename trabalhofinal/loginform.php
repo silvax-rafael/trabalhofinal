@@ -9,21 +9,29 @@ if (isset($_SESSION['usuario_id'])) {
 
 // Conexão com banco
 $conn = new mysqli("localhost", "root", "", "controle_medicamento");
-if ($conn->connect_error) { die("Erro de conexão: " . $conn->connect_error); }
+if ($conn->connect_error) {
+    die("Erro de conexão: " . $conn->connect_error);
+}
 
 $erro = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $usuario = $_POST['nomedeusuario'];
-    $senha   = $_POST['senha'];
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-    $sql = "SELECT * FROM usuarios WHERE usuario='$usuario' LIMIT 1";
-    $result = $conn->query($sql);
+    // Usa prepared statement para evitar SQL injection
+    $stmt = $conn->prepare("SELECT id, nome, email, senha FROM users WHERE email = ? LIMIT 1");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
+
+        // Verifica senha
         if (password_verify($senha, $user['senha'])) {
             $_SESSION['usuario_id'] = $user['id'];
             $_SESSION['usuario_nome'] = $user['nome'];
+
             header("Location: home.php");
             exit;
         } else {
@@ -32,7 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $erro = "Usuário não encontrado!";
     }
+
+    $stmt->close();
 }
+
 $conn->close();
 ?>
 
@@ -51,7 +62,7 @@ $conn->close();
         <h2 class="titulo2">Login</h2>
         <?php if($erro) echo "<p style='color:red;'>$erro</p>"; ?>
         <form method="POST" action="">
-            <label><input type="text" name="nomedeusuario" placeholder="NOME DE USUÁRIO" required></label>
+            <label><input type="text" name="email" placeholder="EMAIL" required></label>
             <label><input type="password" name="senha" placeholder="SENHA" required></label>
             <button type="submit">ENTRAR</button>
         </form>

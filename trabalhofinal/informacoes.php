@@ -13,7 +13,7 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
 $usuario_id = $_SESSION['usuario_id'];
-$stmt = $conn->prepare("SELECT nome, data_nascimento, usuario FROM usuarios WHERE id = ?");
+$stmt = $conn->prepare("SELECT nome, data_nascimento, email FROM users WHERE id = ?");
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -74,7 +74,7 @@ if (!empty($usuario['data_nascimento'])) {
 
     <div class="linha">
       <span><i class="fas fa-envelope"></i> Email:</span>
-      <span><?= htmlspecialchars($usuario['usuario']); ?></span>
+      <span><?= htmlspecialchars($usuario['email']); ?></span>
     </div>
   </div>
 </main>
