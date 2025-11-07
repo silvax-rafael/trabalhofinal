@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmt->execute()) {
                 // Redireciona após cadastro bem-sucedido
-                header("Location: loginform.php");
+                header("Location: trabalhofinal/loginform.php");
                 exit;
             } else {
                 $erro = "Erro ao cadastrar: " . $stmt->error;
