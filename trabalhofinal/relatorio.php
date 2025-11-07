@@ -13,7 +13,7 @@ $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
 $usuario_id = $_SESSION['usuario_id'];
-$sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY data_cadastro DESC";
+$sql = "SELECT * FROM medicamentos WHERE id = ? ORDER BY data_cadastro DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();

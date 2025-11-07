@@ -1,152 +1,239 @@
-/* Paleta de cores */
+/* ==================================== */
+/* 0. VARIÁVEIS DE TEMA (Corrigidas e Padronizadas) */
+/* ==================================== */
 :root {
-  --primary: #85E4F8;
-  --primary-dark: #4dcfe8;
-  --primary-light: #b6f0fa;
-  --bg: #f9fbfc;
-  --card: #ffffff;
-  --text: #1e293b;
-  --muted: #64748b;
-  --border: #dbeafe;
-  --radius: 14px;
-  --shadow: 0 6px 20px rgba(0,0,0,0.1);
+  /* Cores Fornecidas e Adicionais */
+  --color-primary: #3d94aaff;    /* Azul Principal */
+  --color-primary-dark: #4dcfe8; /* Azul mais forte/Active */
+  --color-primary-light: #b6f0fa;/* Azul claro (Fundo de hover leve) */
+  --color-text: #1e293b;         /* Texto principal */
+  --color-muted: #64748b;        /* Texto apagado/secundário */
+  --color-border: #dbeafe;       /* Borda */
+  --color-card-bg: #fff;         /* Fundo do card/sidebar/tabela */
+  --color-background: #f8fafc;   /* Fundo do body (Novo) */ 
+  
+  /* Cores de Estado */
+  --color-error: #ef4444;        /* Vermelho base para SAIR */
+  --color-error-dark: #dc2626;   /* Vermelho hover */
+  --color-white: #fff;           /* Branco */
+  
+  /* Layout e Efeitos */
+  --radius-default: 8px;
+  --transition-speed: 0.25s;
+  --shadow-subtle: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --z-index-sidebar: 100;
 }
 
-/* Reset */
+/* ==================================== */
+/* 1. RESET E BODY (Corrigido) */
+/* ==================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: system-ui, sans-serif;
+  
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-/* Body */
 body {
-  background: var(--bg);
-  color: var(--text);
+  
+  background: linear-gradient(180deg, #3d94aaff, var(--color-card-bg));
+  color: var(--color-text);
   min-height: 100vh;
   display: flex;
 }
 
-/* Sidebar */
+/* ==================================== */
+/* 2. SIDEBAR (Estrutura Principal) */
+/* ==================================== */
 .sidebar {
-  width: 220px;
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width: 240px;
+  padding: 30px 20px; 
   position: fixed;
   top: 0;
+  left: 0;
   bottom: 0;
+  z-index: var(--z-index-sidebar); 
+  
+  background: var(--color-card-bg); 
+  border-right: 1px solid var(--color-border);
+  box-shadow: var(--shadow-subtle); 
+  
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
 }
 
 .sidebar img {
   width: 140px;
-  display: block;
   margin: 0 auto 20px;
-  border-radius: 8px;
+  display: block;
+  border-radius: var(--radius-default);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* ==================================== */
+/* 3. MENU DE NAVEGAÇÃO (Links Corrigidos) */
+/* ==================================== */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; 
+  flex-grow: 1; 
 }
 
+/* Estilo base dos links (a) - Corrigido para ser transparente */
+/* ==================================== */
+/* 3. MENU DE NAVEGAÇÃO (Links) */
+/* ==================================== */
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}
+
+/* Estilo base dos links (a) - Corrigido para fundo AZUL e texto BRANCO */
 .menu a {
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-default);
   text-decoration: none;
-  color: var(--text);
+  /* NOVO: Fundo principal do sistema */
+  background: var(--color-primary); 
+  /* NOVO: Texto branco */
+  color: var(--color-white); 
   font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.25s;
+  
+  transition: all var(--transition-speed) ease;
+  box-shadow: var(--shadow-subtle); /* Adiciona sombra sutil para dar elevação */
 }
 
+/* Estado de HOVER - Corrigido para BRANCO com AZUL */
 .menu a:hover {
-  background: var(--primary-light);
-  color: var(--primary);
+  /* Usando a cor primary-light como fundo sutil */
+  background: var(--color-white); 
+  color: var(--color-primary); /* Texto muda para a cor principal */
+  transform: translateX(4px); 
 }
 
+
+/* Estado ATIVO (Página Atual) */
 .menu a.active {
-  background: var(--primary);
-  color: #fff;
+  /* Mantém o fundo azul, mas usa a cor "dark" para dar uma leve diferença */
+ 
+  color: var(--color-white); 
   font-weight: 600;
+  /* Sombra para destaque do ativo */
+  box-shadow: 0 4px 8px rgba(77, 207, 232, 0.4); 
+}
+
+
+/* ==================================== */
+/* 4. BOTÃO SAIR (Nenhuma alteração necessária aqui) */
+/* ==================================== */
+.menu form {
+    margin-top: auto; 
 }
 
 .btn-sair {
-  padding: 12px;
-  border-radius: 10px;
+  /* Reset de button */
+  appearance: none;
+  -webkit-appearance: none;
+  
+  /* Estilo base */
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-default);
   border: none;
-  background: #ef4444;
-  color: white;
+  
+  /* Uso de variáveis para cor */
+  background: var(--color-error);
+  color: var(--color-white);
+  
   font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
-  margin-top: 20px;
+  text-align: center;
+  
+  transition: all var(--transition-speed) ease;
 }
 
+/* Estado de HOVER */
 .btn-sair:hover {
-  background: #dc2626;
+  background: var(--color-error-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); 
 }
 
-/* Main */
+
+/* ===== MAIN - Conteúdo Principal ===== */
 main {
-  margin-left: 220px;
+  /* Importante: Adicionar um margin-left maior que a largura da sidebar (240px) */
+  margin-left: 260px; /* 240px da sidebar + 20px de espaço */
   padding: 40px;
   flex: 1;
 }
 
 h1 {
   font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-text);
   margin-bottom: 24px;
 }
 
-/* Cards resumo */
+/* ===== Cards Resumo ===== */
 .cards {
   display: flex;
-  gap: 15px;
+  gap: 20px; /* Aumentei o gap para melhor espaçamento */
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 30px; /* Aumentei o margin-bottom */
 }
 
 .card {
-  flex: 1 1 150px;
-  background: var(--primary-light);
+  flex: 1 1 180px; /* Base maior para melhor visualização */
+  background: var(--color-card-bg);
   padding: 20px;
-  border-radius: var(--radius);
+  border-radius: var(--radius-default); /* Corrigido */
   text-align: center;
-  box-shadow: var(--shadow);
-  border: 1px solid var(--primary);
+  box-shadow: var(--shadow-subtle); /* Corrigido */
+  border: 1px solid var(--color-primary-light); /* Borda sutil */
   transition: transform 0.2s;
 }
 
 .card:hover {
   transform: translateY(-4px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.1); /* Sombra um pouco maior no hover */
 }
 
-/* Tabela */
+/* ===== Tabela ===== */
 table {
   width: 100%;
   border-collapse: collapse;
-  background: var(--card);
-  border-radius: var(--radius);
+  background: var(--color-card-bg); /* Corrigido */
+  border-radius: var(--radius-default); /* Corrigido */
   overflow: hidden;
+  box-shadow: var(--shadow-subtle); /* Adicionado sombra para elevação */
 }
 
 th, td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
+  padding: 14px 18px; /* Mais padding para melhor leitura */
+  border-bottom: 1px solid var(--color-border);
   text-align: left;
 }
 
 thead {
-  background: var(--primary);
-  color: #fff;
+  background: var(--color-primary); /* Corrigido */
+  color: var(--color-white);
 }
 
-/* Status */
+/* Tabela: Cor de fundo nas linhas ímpares para leitura */
+tbody tr:nth-child(odd) {
+    background: #fbfdff; 
+}
+
+
+/* ===== Status (Sem Alterações) ===== */
 .status {
   padding: 4px 10px;
   border-radius: 999px;
@@ -159,9 +246,27 @@ thead {
 .status.pendente { background: #fde68a; color: #78350f; }
 .status.atrasado { background: #fecaca; color: #7f1d1d; }
 
-/* Responsividade */
+/* ===== Responsividade ===== */
 @media (max-width: 768px) {
-  main { padding: 20px; }
-  .cards { flex-direction: column; }
+  /* Em telas menores, a sidebar não está fixed, então o margin deve ser zero */
+  main { 
+    margin-left: 0; 
+    padding: 20px; 
+  }
+  .cards { 
+    flex-direction: column; 
+    gap: 15px; 
+  }
   table { font-size: 14px; }
+  
+  /* Esconder a sidebar ou reposicioná-la em telas muito pequenas (necessita de HTML/JS para toggle) */
+  .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative; /* Deixa de ser fixed */
+      box-shadow: none;
+      border-right: none;
+      margin-bottom: 20px;
+  }
+  .sidebar img { margin-bottom: 10px; }
 }

@@ -22,10 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nome   = $_POST['nomedomedicamento'];
     $dose   = $_POST['dose'];
     $horario = $_POST['horario'];
-    $usuario_id = $_SESSION['usuario_id'];
+    $usuario_id = $_SESSION['id'];
 
     // Insere medicamento vinculado ao usuário
-    $stmt = $conn->prepare("INSERT INTO medicamentos (nome, dose, horario, usuario_id) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO medicamentos (nome, dose, horario, id) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("sssi", $nome, $dose, $horario, $usuario_id);
 
     if ($stmt->execute()) {

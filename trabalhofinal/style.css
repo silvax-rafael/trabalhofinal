@@ -30,72 +30,130 @@ body {
   color: var(--text);
 }
 
-/* =================== SIDEBAR =================== */
+/* ==================================== */
+/* 1. VARIÁVEIS DE TEMA (Padronização) */
+/* ==================================== */
+:root {
+  /* Cores Fornecidas */
+  --color-primary: #3d94aaff;    /* Azul Principal */
+  --color-primary-dark: #4dcfe8; /* Azul mais forte */
+  --color-primary-light: #b6f0fa;/* Azul claro (Pode ser usado como fundo leve) */
+  --color-text: #1e293b;         /* Texto principal */
+  --color-muted: #64748b;        /* Texto apagado/secundário */
+  --color-border: #dbeafe;       /* Borda */
+  --color-card-bg: #fff;         /* Fundo do card/sidebar */
+  
+  /* Cores Adicionais */
+  --color-error: #ef4444;        /* Vermelho base para SAIR */
+  --color-error-dark: #dc2626;   /* Vermelho hover */
+  --color-background-light: #f8fafc; /* Fundo de hover leve (bg-light) */
+  
+  /* Layout e Efeitos */
+  --radius-default: 8px;
+  --transition-speed: 0.25s;
+  --shadow-subtle: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --z-index-sidebar: 100;
+}
+
+
+/* ==================================== */
+/* 2. SIDEBAR (Estrutura Principal) */
+/* ==================================== */
 .sidebar {
+  /* Dimensões e Posição */
   width: 240px;
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 30px 20px; /* Mais padding vertical */
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  box-shadow: var(--shadow);
+  z-index: var(--z-index-sidebar); /* Garantir que fique acima de outros elementos */
+  
+  /* Estilo Visual */
+  background: var(--color-card-bg);
+  border-right: 1px solid var(--color-border);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Flex Layout */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espaçamento geral entre elementos */
 }
 
+/* ==================================== */
+/* 3. LOGO/IMAGEM */
+/* ==================================== */
 .sidebar img {
   width: 140px;
   margin: 0 auto 20px;
   display: block;
-  border-radius: 8px;
+  border-radius: var(--radius-default);
+  /* Adicionar uma sombra sutil à imagem para destaque */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.btn-sair {
-  padding: 12px 14px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: white;
-  font-weight: 600;
-  font-size: 0.95rem;
-  background: #ef4444; /* vermelho */
-  text-align: center;
-  transition: all 0.25s;
-}
-
-.btn-sair:hover {
-  background: #dc2626; /* vermelho mais escuro */
-  transform: translateY(-2px);
-}
-
-
+/* ==================================== */
+/* 4. MENU DE NAVEGAÇÃO */
+/* ==================================== */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; /* Reduzi o gap para o menu ficar mais compacto */
+  /* Ocupa o espaço restante antes do botão SAIR */
+  flex-grow: 1; 
 }
 
 .menu a {
+  /* Estilo base do link */
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-default);
   text-decoration: none;
-  color: var(--text);
+  color: var(--color-text);
   font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.25s;
+  
+  transition: all var(--transition-speed) ease;
 }
 
-.menu a:hover {
-  background: var(--bg-light);
-  color: var(--primary);
+/* Estado de HOVER */
+.menu a:not(.btn-sair):hover { /* Aplicar hover em todos exceto o botão SAIR */
+  background: var(--color-background-light);
+  color: var(--color-primary);
+  /* Leve elevação no hover */
+  transform: translateX(4px); 
 }
 
+/* Estado ATIVO */
 .menu a.active {
-  background: var(--primary);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-white); /* Assumindo branco para texto sobre cor primária */
   font-weight: 600;
+  box-shadow: 0 4px 8px rgba(61, 148, 170, 0.3); /* Sombra para destacar o link ativo */
+}
+
+/* ==================================== */
+/* 5. BOTÃO SAIR (Fixo no final) */
+/* ==================================== */
+.btn-sair {
+  /* Estilo base */
+  margin-top: auto; /* Empurra o botão para o fundo da sidebar */
+  padding: 12px 14px;
+  border-radius: var(--radius-default);
+  text-decoration: none;
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 0.95rem;
+  background: var(--color-error);
+  text-align: center;
+  
+  transition: all var(--transition-speed) ease;
+}
+
+/* Estado de HOVER */
+.btn-sair:hover {
+  background: var(--color-error-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); /* Sombra para o hover */
 }
 
 /* =================== CONTEÚDO =================== */

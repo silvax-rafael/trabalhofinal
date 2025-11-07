@@ -25,6 +25,7 @@
 
             <!-- datetime-local envia data + hora -->
             <label>
+                <h6>Data e Hora que ira tomar o remedio</h6>
                 <input type="datetime-local" name="horario" required>
             </label>
 

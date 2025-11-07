@@ -25,73 +25,148 @@ body {
   color: var(--text);
 }
 
-/* Sidebar */
+/* ==================================== */
+/* 1. VARIÁVEIS DE TEMA (Padronização) */
+/* ==================================== */
+:root {
+  /* Cores Fornecidas */
+  --color-primary: #3d94aaff;    /* Azul Principal */
+  --color-primary-dark: #4dcfe8; /* Azul mais forte/Active */
+  --color-primary-light: #b6f0fa;/* Azul claro (Fundo de hover leve) */
+  --color-text: #1e293b;         /* Texto principal */
+  --color-muted: #64748b;        /* Texto apagado/secundário */
+  --color-border: #dbeafe;       /* Borda */
+  --color-card-bg: #fff;         /* Fundo do card/sidebar */
+  
+  /* Cores Adicionais */
+  --color-error: #ef4444;        /* Vermelho base para SAIR */
+  --color-error-dark: #dc2626;   /* Vermelho hover */
+  --color-white: #fff;
+  
+  /* Layout e Efeitos */
+  --radius-default: 8px;
+  --transition-speed: 0.25s;
+  --shadow-subtle: 0 4px 10px rgba(0, 0, 0, 0.05);
+  --z-index-sidebar: 100;
+}
+
+/* Aplicando as variáveis aos seletores genéricos da sidebar */
 .sidebar {
+  /* Dimensões e Posição */
   width: 240px;
-  background: var(--card);
-  border-right: 1px solid var(--border);
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  padding: 30px 20px; 
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  box-shadow: var(--shadow);
+  z-index: var(--z-index-sidebar); 
+  
+  /* Estilo Visual */
+  background: var(--color-card-bg); /* Usei card-bg aqui */
+  border-right: 1px solid var(--color-border);
+  box-shadow: var(--shadow-subtle); /* Usei shadow-subtle */
+  
+  /* Flex Layout */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; 
 }
 
+/* ==================================== */
+/* 2. LOGO/IMAGEM */
+/* ==================================== */
 .sidebar img {
   width: 140px;
   margin: 0 auto 20px;
   display: block;
-  border-radius: 8px;
+  border-radius: var(--radius-default);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* ==================================== */
+/* 3. MENU DE NAVEGAÇÃO (Links) */
+/* ==================================== */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px; /* Espaçamento menor para os links */
+  flex-grow: 1; /* Ocupa o espaço restante */
 }
 
+/* Estilo base dos links (a) */
 .menu a {
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-default);
   text-decoration: none;
-  color: var(--text);
+  color: var(--color-text);
   font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.25s;
+  background: var(--color-primary);
+  transition: all var(--transition-speed) ease;
 }
 
+/* Estado de HOVER (Links) */
 .menu a:hover {
-  background: var(--primary);
-  color: #fff;
+  /* Usando a cor primary-light como fundo sutil */
+  background: var(--color-white); 
+  color: var(--color-primary); /* Texto muda para a cor principal */
+  transform: translateX(4px); 
 }
 
+/* Estado ATIVO (Links) */
 .menu a.active {
-  background: var(--primary-dark);
-  color: #fff;
+  
+  color: var(--color-white); 
   font-weight: 600;
+  /* Sombra para destacar o link ativo */
+  box-shadow: 0 4px 8px rgba(77, 207, 232, 0.3); 
 }
 
-/* Botão sair */
+/* ==================================== */
+/* 4. BOTÃO SAIR (Form e Button) */
+/* ==================================== */
+
+/* Oculta o formulário de ser um item flexível no menu */
+.menu form {
+    margin-top: auto; /* Empurra o formulário (e o botão) para o fundo */
+}
+
+/* Estilo do botão */
 .btn-sair {
+  /* Reset de button (importante para consistência) */
+  appearance: none;
+  -webkit-appearance: none;
+  
+  /* Estilo base */
+  width: 100%; /* Garante que ocupe toda a largura */
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-default);
   border: none;
-  background: #ef4444;
-  color: #fff;
+  
+  /* Uso de variáveis para cor */
+  background: var(--color-error);
+  color: var(--color-white);
+  
   font-weight: 600;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.25s;
+  text-align: center; /* Garantir que o texto esteja centralizado se não for 100% de largura */
+  
+  transition: all var(--transition-speed) ease;
 }
 
+/* Estado de HOVER */
 .btn-sair:hover {
-  background: #dc2626;
+  background: var(--color-error-dark);
   transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4); 
 }
 
+/* Estado de Foco (Acessibilidade) */
+.btn-sair:focus {
+    outline: 2px solid var(--color-error-dark);
+    outline-offset: 2px;
+}
 /* Main */
 main {
   flex: 1;

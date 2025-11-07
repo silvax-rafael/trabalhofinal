@@ -1,105 +1,171 @@
-/* ====== Paleta de cores ====== */
+/* ==================================== */
+/* 0. VARIÁVEIS DE TEMA (Padronização e Uso de Prefixos) */
+/* ==================================== */
 :root {
-  --bg: #f0faff;          /* fundo geral */
-  --bg-light: #e6f8fc;    /* fundo leve */
-  --card: #ffffff;        /* fundo dos cards */
-  --muted: #64748b;       /* texto apagado */
-  --text: #1e293b;        /* texto principal */
-  --border: #dbeafe;      /* borda */
-  --primary: #3d94aa;     /* azul principal */
-  --primary-dark: #4dcfe8;/* azul mais forte */
-  --primary-light: #b6f0fa;/* azul claro */
-  --accent: #ff6600;      /* destaque laranja */
-  --success: #16a34a;     /* verde */
-  --warning: #f59e0b;     /* amarelo */
-  --danger: #ef4444;      /* vermelho */
-  --radius: 14px;
-  --shadow: 0 6px 18px rgba(71, 162, 204, 0.08);
+  /* Cores de Fundo */
+  --color-bg: #f0faff;            /* Fundo geral (Body) */
+  --color-bg-light: #e6f8fc;      /* Fundo leve (Sidebar, Créditos) */
+  --color-card-bg: #ffffff;       /* Fundo dos cards */
+  
+  /* Cores de Texto e Borda */
+  --color-text: #1e293b;          /* Texto principal */
+  --color-muted: #64748b;         /* Texto apagado */
+  --color-border: #dbeafe;        /* Borda */
+  
+  /* Cores de Ação */
+  --color-primary: #3d94aa;       /* Azul principal (Fundo Ativo) */
+  --color-primary-dark: #4dcfe8;  /* Azul mais forte */
+  --color-primary-light: #b6f0fa; /* Azul claro */
+  --color-accent: #ff6600;        /* Destaque laranja (Hover) */
+  --color-success: #16a34a;       /* Verde */
+  --color-warning: #f59e0b;       /* Amarelo */
+  --color-danger: #ef4444;        /* Vermelho (Sair) */
+  --color-danger-dark: #dc2626;   /* Vermelho hover */
+  --color-white: #fff;
+  
+  /* Layout e Efeitos */
+  --radius-default: 8px; /* Padronizado */
+  --radius-large: 14px; /* O 'radius' original */
+  --transition-speed: 0.3s;
+  --shadow-subtle: 0 6px 18px rgba(71, 162, 204, 0.08); /* Corrigido para variável */
+  --z-index-sidebar: 100;
+  --sidebar-width: 240px;
 }
 
-/* Reset */
+/* ==================================== */
+/* 1. RESET E BODY */
+/* ==================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 body {
   display: flex;
   min-height: 100vh;
-  background-color: var(--bg);
-  color: var(--text);
+  background: linear-gradient(180deg, #3d94aaff, var(--color-bg));
+  color: var(--color-text);
+  /* Adiciona margem para que o conteúdo não fique sob a sidebar fixa */
+  padding-left: var(--sidebar-width); 
 }
 
-/* Sidebar */
+/* ==================================== */
+/* 2. SIDEBAR (Estrutura Fixa) */
+/* ==================================== */
 .sidebar {
-  width: 240px;
-  background-color: var(--bg-light);
-  padding: 20px;
+  /* Posição Fixa e Dimensões */
+  width: var(--sidebar-width);
+  position: fixed; /* Tornando fixa */
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: var(--z-index-sidebar); 
+  
+  /* Estilo */
+  background-color: var(--color-bg-light); /* Fundo leve */
+  padding: 30px 20px; /* Mais espaço */
+  border-right: 1px solid var(--color-border);
+  box-shadow: var(--shadow-subtle);
+  
+  /* Flex Layout */
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
 }
 
 .sidebar img {
   width: 120px;
-  margin-bottom: 30px;
+  margin-bottom: 20px; /* Reduzi um pouco */
 }
 
+/* ==================================== */
+/* 3. MENU DE NAVEGAÇÃO (Links Corrigidos) */
+/* ==================================== */
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 8px; /* Espaçamento menor entre os links */
   width: 100%;
+  flex-grow: 1; /* Ocupa o espaço restante antes do botão SAIR */
 }
 
+/* Estilo base dos links (a) */
 .menu a {
-  color: var(--text);
+  color: var(--color-text);
   text-decoration: none;
-  padding: 12px;
-  border-radius: 8px;
-  transition: 0.3s;
+  padding: 12px 15px;
+  border-radius: var(--radius-default);
+  transition: all var(--transition-speed);
+  font-weight: 500;
 }
 
-.menu a:hover {
-  background-color: var(--accent);
-  color: #fff;
+/* Estado de HOVER (Usando o Laranja Accent) */
+.menu a:hover:not(.btn-sair) {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  transform: translateX(5px); /* Efeito de deslize sutil */
 }
 
+/* Estado ATIVO */
 .menu a.active {
-  background: var(--primary);
-  color: #fff;
+  background: var(--color-primary);
+  color: var(--color-white);
   font-weight: 600;
+  box-shadow: 0 4px 10px rgba(61, 148, 170, 0.3); /* Sombra no ativo */
 }
 
-.btn-sair {
-  background: var(--danger);
-  color: #fff;
+/* ==================================== */
+/* 4. BOTÃO SAIR (Link <a> como Botão no Fim) */
+/* ==================================== */
+.menu a.btn-sair {
+  /* Empurra o botão para o fundo */
+  margin-top: auto;
+  
+  background: var(--color-danger);
+  color: var(--color-white);
   text-align: center;
-  border-radius: 8px;
+  font-weight: 600;
+  
+  /* Remove o efeito de deslize no botão Sair */
+  transform: none !important; 
 }
 
-/* Conteúdo */
+.menu a.btn-sair:hover {
+  background: var(--color-danger-dark);
+  color: var(--color-white);
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+  /* Desativa a cor do accent e o hover padrão */
+  transform: translateY(-2px); 
+}
+
+/* ==================================== */
+/* 5. CONTEÚDO PRINCIPAL (Main) */
+/* ==================================== */
 .conteudo {
   flex: 1;
   padding: 40px;
 }
 
 .conteudo h1 {
-  color: var(--accent);
+  color: var(--color-accent);
   margin-bottom: 20px;
+  font-size: 2rem;
 }
 
 .conteudo h2 {
-  color: var(--primary-dark);
+  color: var(--color-primary-dark);
   margin-top: 20px;
   margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
 .conteudo h3 {
-  color: var(--muted);
+  color: var(--color-muted);
   margin-top: 15px;
+  font-size: 1.2rem;
 }
 
 .conteudo p,
@@ -110,7 +176,7 @@ body {
 
 .conteudo ul {
   padding-left: 20px;
-  list-style: none;
+  list-style: disc; /* Usando bolinhas padrão */
 }
 
 .conteudo ul li {
@@ -121,7 +187,7 @@ body {
 .creditos {
   margin-top: 30px;
   padding: 20px;
-  background: var(--bg-light);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: var(--color-bg-light);
+  border-radius: var(--radius-large); /* Usando o radius maior */
+  box-shadow: var(--shadow-subtle);
 }
