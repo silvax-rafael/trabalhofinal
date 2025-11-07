@@ -81,7 +81,7 @@ $conn->close();
       <label>
         <input type="text" name="nome" placeholder="NOME" required>
       </label>
-h
+
       
       <label>
         <input type="email" name="email" placeholder="EMAIL" required>
