@@ -1,67 +1,85 @@
 <?php
 session_start();
+
+// Garante que o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: loginform.php");
     exit;
 }
 
-$host = "localhost";
-$db   = "controle_medicamento";
-$user = "root";
-$pass = "";
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
-
-// Atualiza medicamento
-if(isset($_POST['id'])) {
-    $id = intval($_POST['id']);
-    $nome = $_POST['nome'];
-    $dose = $_POST['dose'];
-    $horario = $_POST['horario'];
-
-    $stmt = $conn->prepare("UPDATE medicamentos SET nome=?, dose=?, horario=? WHERE id=? AND usuario_id=?");
-    $stmt->bind_param("sssii", $nome, $dose, $horario, $id, $_SESSION['usuario_id']);
-    $stmt->execute();
-    $stmt->close();
-    $conn->close();
-    header("Location: home.php");
-    exit;
+// Conexão com o banco
+$conn = new mysqli("localhost", "root", "", "controle_medicamento");
+if ($conn->connect_error) {
+    die("Erro na conexão: " . $conn->connect_error);
 }
 
-// Formulário de edição
-if(isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT * FROM medicamentos WHERE id=? AND id=?");
-    $stmt->bind_param("ii", $id, $_SESSION['usuario_id']);
-    $stmt->execute();
-    $res = $stmt->get_result();
-    $med = $res->fetch_assoc();
-    $stmt->close();
+// Verifica se recebeu o ID
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    die("<p style='color:red; text-align:center;'>Erro: ID do medicamento não informado.</p>");
 }
+
+$id = intval($_GET['id']);
+$usuario_id = $_SESSION['usuario_id'];
+
+// Busca os dados do medicamento do usuário logado
+$sql = "SELECT * FROM medicamentos WHERE id = ? AND usuario_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $id, $usuario_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    die("<p style='color:red; text-align:center;'>Medicamento não encontrado ou você não tem permissão para editá-lo.</p>");
+}
+
+$medicamento = $result->fetch_assoc();
+
+// Atualiza os dados se o formulário for enviado
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nome = $_POST['nome'] ?? '';
+    $dose = $_POST['dose'] ?? '';
+    $horario = $_POST['horario'] ?? '';
+
+    if (!empty($nome) && !empty($dose) && !empty($horario)) {
+        $update = $conn->prepare("UPDATE medicamentos SET nome = ?, dose = ?, horario = ? WHERE id = ? AND usuario_id = ?");
+        $update->bind_param("sssii", $nome, $dose, $horario, $id, $usuario_id);
+
+        if ($update->execute()) {
+            header("Location: home.php");
+            exit;
+        } else {
+            echo "<p style='color:red; text-align:center;'>Erro ao atualizar medicamento.</p>";
+        }
+
+        $update->close();
+    } else {
+        echo "<p style='color:red; text-align:center;'>Preencha todos os campos.</p>";
+    }
+}
+
+$stmt->close();
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Editar Medicamento</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Medicamento</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<main class="main" style="margin-left:0; padding:32px;">
-  <div class="card">
-    <div class="header">
-      <div class="title">Editar Medicamento</div>
-    </div>
-    <form action="editar_medicamento.php" method="POST" style="padding:20px; display:flex; flex-direction:column; gap:16px;">
-      <input type="hidden" name="id" value="<?php echo $med['id']; ?>">
-      <input type="text" name="nome" value="<?php echo $med['nome']; ?>" required>
-      <input type="text" name="dose" value="<?php echo $med['dose']; ?>" required>
-      <input type="datetime-local" name="horario" value="<?php echo date("Y-m-d\TH:i", strtotime($med['horario'])); ?>" required>
-      <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+
+<div class="card" style="max-width: 600px; margin: 80px auto; padding: 30px;">
+    <h2 style="text-align:center;">Editar Medicamento</h2>
+    <form action="" method="POST">
+        <input type="text" name="nome" placeholder="Nome do medicamento" required value="<?php echo htmlspecialchars($medicamento['nome']); ?>"><br><br>
+        <input type="text" name="dose" placeholder="Dosagem" required value="<?php echo htmlspecialchars($medicamento['dose']); ?>"><br><br>
+        <input type="datetime-local" name="horario" required value="<?php echo date('Y-m-d\TH:i', strtotime($medicamento['horario'])); ?>"><br><br>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Salvar Alterações</button>
     </form>
-  </div>
-</main>
+</div>
+
 </body>
 </html>

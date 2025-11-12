@@ -1,13 +1,12 @@
 <?php
 session_start();
 
-// Verifica se o usuário está logado
+
 if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    header('Location: login.php');
+    header('Location: login.php'); 
     exit;
 }
 
-// Dados de conexão com o banco
 $host = "localhost";
 $username = "root";
 $password = "";
@@ -21,10 +20,12 @@ if ($conn->connect_error) {
     die('ERRO FATAL NA CONEXÃO COM O BANCO DE DADOS: ' . $conn->connect_error);
 }
 
-// Obtém o ID do usuário da sessão
+// A CHAVE AQUI DEVE SER IGUAL À CHAVE DO SEU LOGIN
 $usuario_id = $_SESSION['usuario_id'];
 
-// Consulta medicamentos do usuário logado
+// --- FIM DA ARRANJADA NA SESSÃO E CONEXÃO ---
+
+// CORREÇÃO FINAL NA CONSULTA
 $sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY horario ASC, data_cadastro DESC";
 $stmt = $conn->prepare($sql);
 
@@ -36,6 +37,7 @@ $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $hora_atual = new DateTime();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -51,9 +53,9 @@ $hora_atual = new DateTime();
   <img src="fundo.png" alt="Logo Sistema">
   <nav class="menu">
     <a href="home.php" class="active">🏠 HOME</a>
-    <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
-    <a href="relatorio.php">📊 RELATÓRIO</a>
-    <a href="sobre.php">ℹ️ SOBRE</a>
+    <a href="informacoes.php" class="active">👤 INFORMAÇÕES PESSOAIS</a>
+    <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
+    <a href="sobre.php" class="active">ℹ️ SOBRE</a>
     <a href="logout.php" class="btn-sair">🚪 SAIR</a>
   </nav>
 </aside>
@@ -137,14 +139,15 @@ $hora_atual = new DateTime();
                     </tr>";
           }
           $conn->close();
-          ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</main>
 
-<!-- Script de lembrete -->
+          
+          ?>
+
+          <!-- Conteúdo principal -->
+<main class="conteudo">
+  
+
+<!-- ✅ Script de lembrete -->
 <script>
 function verificarHorario() {
   const agora = new Date();
@@ -153,13 +156,23 @@ function verificarHorario() {
 
   // Exemplo: alerta às 14:30
   if (hora === 14 && minuto === 30) {
-    alert("💊 Hora de tomar o remédio!");
+    document.getElementById("alerta").innerText = "💊 Hora do seu remédio!";
+    alert("Hora de tomar o remédio!");
   }
 }
 
 // Verifica a cada 1 minuto
 setInterval(verificarHorario, 60000);
 </script>
+
+</body>
+</html>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
 
 </body>
 </html>
