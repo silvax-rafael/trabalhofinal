@@ -19,7 +19,8 @@
 }
 
 body {
-  background: var(--bg);
+   background: linear-gradient(180deg, #3d94aaff, var(--primary-light));
+
   color: var(--text);
   display: flex;
   justify-content: center;
@@ -33,7 +34,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
+ 
+  text-align: center;
 }
 
 /* Caixa de formulário */
@@ -95,6 +97,11 @@ button {
   cursor: pointer;
   transition: all 0.25s;
   color: #fff;
+  
+  
+  /* Centralização */
+  width: 70%;
+  margin: 0 auto;
 }
 
 button:hover {
