@@ -7,16 +7,20 @@ if (!isset($_SESSION['usuario_id'])) {
 
 if(isset($_GET['id'])) {
     $id = intval($_GET['id']);
+    $usuario_id = $_SESSION['usuario_id'];
 
     $host = "localhost";
     $db   = "controle_medicamento";
     $user = "root";
     $pass = "";
     $conn = new mysqli($host, $user, $pass, $db);
-    if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
+    if ($conn->connect_error) { 
+        die("Conexão falhou: " . $conn->connect_error); 
+    }
 
-    $stmt = $conn->prepare("DELETE FROM medicamentos WHERE id=? AND id=?");
-    $stmt->bind_param("ii", $id, $_SESSION['usuario_id']);
+    // Aqui a query correta
+    $stmt = $conn->prepare("DELETE FROM medicamentos WHERE id=? AND usuario_id=?");
+    $stmt->bind_param("ii", $id, $usuario_id);
     $stmt->execute();
     $stmt->close();
     $conn->close();

@@ -1,23 +1,36 @@
 <?php
+session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['medication_taken_id'])) {
-    $medication_id = $_POST['medication_taken_id'];
-
-    
-    if ($success) {
-        
-        session_start(); 
-        $_SESSION['success_message'] = "✅ O remédio foi tomado com sucesso!";
-        
-      
-        header("Location: " . $_SERVER['PHP_SELF']); 
-        exit();
-    } else {
-        // Handle error case
-        $error_message = "❌ Erro ao registrar a tomada do remédio.";
-    }
+if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit;
 }
 
-// 5. **Display Messages and List:**
-?>
+date_default_timezone_set('America/Sao_Paulo');
 
+$host = "localhost";
+$username = "root";
+$password = "";
+$dbname = "controle_medicamento";
+
+$conn = new mysqli($host, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Erro na conexão com o banco de dados: " . $conn->connect_error);
+}
+
+if (isset($_POST['id']) && !empty($_POST['id'])) {
+    $id = intval($_POST['id']);
+    $usuario_id = $_SESSION['usuario_id'];
+
+    // Atualiza ultima_tomada para marcar como Tomado
+    $sql = "UPDATE medicamentos SET ultima_tomada = NOW() WHERE id = ? AND usuario_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $id, $usuario_id);
+    $stmt->execute();
+    $stmt->close();
+}
+
+// Redireciona de volta para home
+header("Location: home.php");
+exit;
+?>
