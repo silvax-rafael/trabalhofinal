@@ -1,30 +1,40 @@
 <?php
-// 1. INICIA A SESSÃO NO TOPO
+// 1️⃣ INICIA A SESSÃO NO TOPO
 session_start();
 
-// 2. VERIFICA SE O USUÁRIO ESTÁ LOGADO ANTES DE TUDO
+// 2️⃣ VERIFICA SE O USUÁRIO ESTÁ LOGADO
 if (!isset($_SESSION['usuario_id'])) {
-    // Se não estiver logado, redireciona para o login.
     header("Location: loginform.php");
     exit;
 }
 
-// ... Código de Conexão com o Banco de Dados (se não estiver em um arquivo separado) ...
+// 3️⃣ CONEXÃO COM O BANCO DE DADOS
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "controle_medicamento";
 
-// O seu bloco POST:
+$conn = new mysqli($host, $user, $pass, $dbname);
+
+// Verifica erro na conexão
+if ($conn->connect_error) {
+    die("ERRO DE CONEXÃO: " . $conn->connect_error);
+}
+
+// 4️⃣ PROCESSA O FORMULÁRIO DE CADASTRO
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // 3. RECUPERA O ID DO USUÁRIO DA SESSÃO
-    $usuario_id = $_SESSION['usuario_id']; // <-- USE ESTA LINHA SIMPLES
-
+    $usuario_id = $_SESSION['usuario_id'];
     $nome    = $_POST['nomedomedicamento'];
     $dose    = $_POST['dose'];
     $horario = $_POST['horario'];
 
-    // 4. CONSULTA SQL CORRIGIDA
-    $sql_insert = "INSERT INTO medicamentos (nome, dose, horario, usuario_id) VALUES (?, ?, ?, ?)"; 
+    $sql_insert = "INSERT INTO medicamentos (nome, dose, horario, usuario_id) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql_insert);
-    
-    // 5. BIND PARAM (Se 'usuario_id' for INT)
+
+    if ($stmt === false) {
+        die("Erro ao preparar SQL: " . $conn->error);
+    }
+
     $stmt->bind_param("sssi", $nome, $dose, $horario, $usuario_id);
 
     if ($stmt->execute()) {
@@ -33,13 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     } else {
         $_SESSION['error_message'] = 'Erro ao cadastrar: ' . $stmt->error;
-        header("Location: novomedicamento.php"); 
+        header("Location: novomedicamento.php");
         exit;
     }
 
     $stmt->close();
 }
-// ... Restante do HTML do formulário de cadastro ...
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <h2>Cadastro de Medicamento</h2>
 
         <!-- Formulário que envia os dados para o PHP -->
-        <form action="cadastro_medicamento.php" method="POST">
+        <form action="novomedicamento.php" method="POST">
             <label>
                 <input type="text" name="nomedomedicamento" placeholder="Nome do Medicamento" required>
             </label>
@@ -69,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <!-- datetime-local envia data + hora -->
             <label>
-                <h6>Data e Hora que ira tomar o remedio</h6>
+                <h6>Data e Hora que irá tomar o remédio</h6>
                 <input type="datetime-local" name="horario" required>
             </label>
 
@@ -79,4 +90,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 </html>
-
