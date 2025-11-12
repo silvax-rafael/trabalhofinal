@@ -18,29 +18,27 @@
 }
 
 body {
-  background: var(--bg);
+    background: linear-gradient(180deg, #3d94aaff, var(--bg));
+
   display: flex;
   min-height: 100vh;
   flex-direction: column;
   color: var(--text);
 }
 
-/* ==================================== */
-/* 1. VARIÁVEIS DE TEMA (Padronização) */
-/* ==================================== */
+
 :root {
-  /* Cores Fornecidas */
-  --color-primary: #3d94aaff;    /* Azul Principal */
-  --color-primary-dark: #4dcfe8; /* Azul mais forte/Active */
-  --color-primary-light: #b6f0fa;/* Azul claro (Fundo de hover leve) */
-  --color-text: #1e293b;         /* Texto principal */
-  --color-muted: #64748b;        /* Texto apagado/secundário */
-  --color-border: #dbeafe;       /* Borda */
-  --color-card-bg: #fff;         /* Fundo do card/sidebar */
+  --color-primary: #3d94aaff;   
+  --color-primary-dark: #4dcfe8;
+  --color-primary-light: #b6f0fa;
+  --color-text: #1e293b;         
+  --color-muted: #64748b;       
+  --color-border: #dbeafe;       
+  --color-card-bg: #fff;         
   
-  /* Cores Adicionais */
-  --color-error: #ef4444;        /* Vermelho base para SAIR */
-  --color-error-dark: #dc2626;   /* Vermelho hover */
+  
+  --color-error: #ef4444;        
+  --color-error-dark: #dc2626;   
   --color-white: #fff;
   
   /* Layout e Efeitos */
@@ -50,9 +48,7 @@ body {
   --z-index-sidebar: 100;
 }
 
-/* Aplicando as variáveis aos seletores genéricos da sidebar */
 .sidebar {
-  /* Dimensões e Posição */
   width: 240px;
   padding: 30px 20px; 
   position: fixed;

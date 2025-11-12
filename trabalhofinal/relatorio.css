@@ -1,21 +1,17 @@
-/* ==================================== */
-/* 0. VARIÁVEIS DE TEMA (Corrigidas e Padronizadas) */
-/* ==================================== */
+
 :root {
-  /* Cores Fornecidas e Adicionais */
-  --color-primary: #3d94aaff;    /* Azul Principal */
-  --color-primary-dark: #4dcfe8; /* Azul mais forte/Active */
-  --color-primary-light: #b6f0fa;/* Azul claro (Fundo de hover leve) */
-  --color-text: #1e293b;         /* Texto principal */
-  --color-muted: #64748b;        /* Texto apagado/secundário */
-  --color-border: #dbeafe;       /* Borda */
-  --color-card-bg: #fff;         /* Fundo do card/sidebar/tabela */
-  --color-background: #f8fafc;   /* Fundo do body (Novo) */ 
+  --color-primary: #3d94aaff;    
+  --color-primary-dark: #4dcfe8; 
+  --color-primary-light: #b6f0fa;
+  --color-text: #1e293b;        
+  --color-muted: #64748b;        
+  --color-border: #dbeafe;       
+  --color-card-bg: #fff;         
+  --color-background: #f8fafc;    
   
-  /* Cores de Estado */
-  --color-error: #ef4444;        /* Vermelho base para SAIR */
-  --color-error-dark: #dc2626;   /* Vermelho hover */
-  --color-white: #fff;           /* Branco */
+  --color-error: #ef4444;        
+  --color-error-dark: #dc2626;   
+  --color-white: #fff;          
   
   /* Layout e Efeitos */
   --radius-default: 8px;
@@ -24,9 +20,7 @@
   --z-index-sidebar: 100;
 }
 
-/* ==================================== */
-/* 1. RESET E BODY (Corrigido) */
-/* ==================================== */
+
 * {
   margin: 0;
   padding: 0;
@@ -43,9 +37,7 @@ body {
   display: flex;
 }
 
-/* ==================================== */
-/* 2. SIDEBAR (Estrutura Principal) */
-/* ==================================== */
+
 .sidebar {
   width: 240px;
   padding: 30px 20px; 
@@ -72,9 +64,7 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* ==================================== */
-/* 3. MENU DE NAVEGAÇÃO (Links Corrigidos) */
-/* ==================================== */
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -82,10 +72,7 @@ body {
   flex-grow: 1; 
 }
 
-/* Estilo base dos links (a) - Corrigido para ser transparente */
-/* ==================================== */
-/* 3. MENU DE NAVEGAÇÃO (Links) */
-/* ==================================== */
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -93,45 +80,36 @@ body {
   flex-grow: 1;
 }
 
-/* Estilo base dos links (a) - Corrigido para fundo AZUL e texto BRANCO */
 .menu a {
   padding: 12px 14px;
   border-radius: var(--radius-default);
   text-decoration: none;
-  /* NOVO: Fundo principal do sistema */
   background: var(--color-primary); 
-  /* NOVO: Texto branco */
   color: var(--color-white); 
   font-size: 0.95rem;
   font-weight: 500;
   
   transition: all var(--transition-speed) ease;
-  box-shadow: var(--shadow-subtle); /* Adiciona sombra sutil para dar elevação */
+  box-shadow: var(--shadow-subtle); 
 }
 
-/* Estado de HOVER - Corrigido para BRANCO com AZUL */
 .menu a:hover {
-  /* Usando a cor primary-light como fundo sutil */
   background: var(--color-white); 
-  color: var(--color-primary); /* Texto muda para a cor principal */
+  color: var(--color-primary);
   transform: translateX(4px); 
 }
 
 
-/* Estado ATIVO (Página Atual) */
 .menu a.active {
-  /* Mantém o fundo azul, mas usa a cor "dark" para dar uma leve diferença */
+  
  
   color: var(--color-white); 
   font-weight: 600;
-  /* Sombra para destaque do ativo */
   box-shadow: 0 4px 8px rgba(77, 207, 232, 0.4); 
 }
 
 
-/* ==================================== */
-/* 4. BOTÃO SAIR (Nenhuma alteração necessária aqui) */
-/* ==================================== */
+
 .menu form {
     margin-top: auto; 
 }
@@ -167,10 +145,8 @@ body {
 }
 
 
-/* ===== MAIN - Conteúdo Principal ===== */
 main {
-  /* Importante: Adicionar um margin-left maior que a largura da sidebar (240px) */
-  margin-left: 260px; /* 240px da sidebar + 20px de espaço */
+  margin-left: 260px; 
   padding: 40px;
   flex: 1;
 }
@@ -227,13 +203,11 @@ thead {
   color: var(--color-white);
 }
 
-/* Tabela: Cor de fundo nas linhas ímpares para leitura */
 tbody tr:nth-child(odd) {
     background: #fbfdff; 
 }
 
 
-/* ===== Status (Sem Alterações) ===== */
 .status {
   padding: 4px 10px;
   border-radius: 999px;
@@ -246,9 +220,7 @@ tbody tr:nth-child(odd) {
 .status.pendente { background: #fde68a; color: #78350f; }
 .status.atrasado { background: #fecaca; color: #7f1d1d; }
 
-/* ===== Responsividade ===== */
 @media (max-width: 768px) {
-  /* Em telas menores, a sidebar não está fixed, então o margin deve ser zero */
   main { 
     margin-left: 0; 
     padding: 20px; 
@@ -259,7 +231,6 @@ tbody tr:nth-child(odd) {
   }
   table { font-size: 14px; }
   
-  /* Esconder a sidebar ou reposicioná-la em telas muito pequenas (necessita de HTML/JS para toggle) */
   .sidebar {
       width: 100%;
       height: auto;

@@ -63,7 +63,9 @@ $conn->close();
         <?php if($erro) echo "<p style='color:red;'>$erro</p>"; ?>
         <form method="POST" action="">
             <label><input type="text" name="email" placeholder="EMAIL" required></label>
+            <br>
             <label><input type="password" name="senha" placeholder="SENHA" required></label>
+            <br>
             <button type="submit">ENTRAR</button>
         </form>
         <a href="../index.php">Criar nova conta</a>
