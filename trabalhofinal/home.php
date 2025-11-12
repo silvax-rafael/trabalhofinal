@@ -1,31 +1,30 @@
 <?php
 session_start();
 
-
+// Verifica se o usuário está logado
 if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    header('Location: login.php'); 
+    header('Location: login.php');
     exit;
 }
 
+// Dados de conexão com o banco
 $host = "localhost";
 $username = "root";
 $password = "";
 $dbname = "controle_medicamento";
 
 // Tentativa de conexão
-$conn = new mysqli($localhost, $username, $password, $dbname);
+$conn = new mysqli($host, $username, $password, $dbname);
 
 // Verifica a conexão
 if ($conn->connect_error) {
     die('ERRO FATAL NA CONEXÃO COM O BANCO DE DADOS: ' . $conn->connect_error);
 }
 
-// A CHAVE AQUI DEVE SER IGUAL À CHAVE DO SEU LOGIN
+// Obtém o ID do usuário da sessão
 $usuario_id = $_SESSION['usuario_id'];
 
-// --- FIM DA ARRANJADA NA SESSÃO E CONEXÃO ---
-
-// CORREÇÃO FINAL NA CONSULTA
+// Consulta medicamentos do usuário logado
 $sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY horario ASC, data_cadastro DESC";
 $stmt = $conn->prepare($sql);
 
@@ -37,14 +36,6 @@ $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $hora_atual = new DateTime();
-
-// 💡 BLOC DE DEBUG FINAL 💡
-echo "<h2>--- DEBUG DA LISTAGEM ---</h2>";
-echo "ID do Usuário sendo buscado: <strong>" . htmlspecialchars($usuario_id) . "</strong><br>";
-echo "Consulta SQL: <strong>" . htmlspecialchars($sql) . "</strong><br>";
-echo "Medicamentos encontrados (Linhas): <strong>" . htmlspecialchars($result->num_rows) . "</strong><br>";
-echo "------------------------------<br>";
-// 💡 FIM DO DEBUG 💡
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -60,9 +51,9 @@ echo "------------------------------<br>";
   <img src="fundo.png" alt="Logo Sistema">
   <nav class="menu">
     <a href="home.php" class="active">🏠 HOME</a>
-    <a href="informacoes.php" class="active">👤 INFORMAÇÕES PESSOAIS</a>
-    <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
-    <a href="sobre.php" class="active">ℹ️ SOBRE</a>
+    <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
+    <a href="relatorio.php">📊 RELATÓRIO</a>
+    <a href="sobre.php">ℹ️ SOBRE</a>
     <a href="logout.php" class="btn-sair">🚪 SAIR</a>
   </nav>
 </aside>
@@ -146,15 +137,14 @@ echo "------------------------------<br>";
                     </tr>";
           }
           $conn->close();
-
-          
           ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
 
-          <!-- Conteúdo principal -->
-<main class="conteudo">
-  
-
-<!-- ✅ Script de lembrete -->
+<!-- Script de lembrete -->
 <script>
 function verificarHorario() {
   const agora = new Date();
@@ -163,23 +153,13 @@ function verificarHorario() {
 
   // Exemplo: alerta às 14:30
   if (hora === 14 && minuto === 30) {
-    document.getElementById("alerta").innerText = "💊 Hora do seu remédio!";
-    alert("Hora de tomar o remédio!");
+    alert("💊 Hora de tomar o remédio!");
   }
 }
 
 // Verifica a cada 1 minuto
 setInterval(verificarHorario, 60000);
 </script>
-
-</body>
-</html>
-
-        </tbody>
-      </table>
-    </div>
-  </div>
-</main>
 
 </body>
 </html>

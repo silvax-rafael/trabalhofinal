@@ -27,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
+        
+
         // Verifica senha
         if (password_verify($senha, $user['senha'])) {
             $_SESSION['usuario_id'] = $user['id'];
