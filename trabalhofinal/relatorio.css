@@ -103,7 +103,7 @@ body {
 .menu a.active {
   
  
-  color: var(--color-white); 
+  
   font-weight: 600;
   box-shadow: 0 4px 8px rgba(77, 207, 232, 0.4); 
 }

@@ -30,9 +30,7 @@ body {
   color: var(--text);
 }
 
-/* ==================================== */
-/* 1. VARIÁVEIS DE TEMA (Padronização) */
-/* ==================================== */
+
 :root {
   /* Cores Fornecidas */
   --color-primary: #3d94aaff;    /* Azul Principal */
@@ -56,33 +54,26 @@ body {
 }
 
 
-/* ==================================== */
-/* 2. SIDEBAR (Estrutura Principal) */
-/* ==================================== */
+
 .sidebar {
-  /* Dimensões e Posição */
   width: 240px;
-  padding: 30px 20px; /* Mais padding vertical */
+  padding: 30px 20px;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  z-index: var(--z-index-sidebar); /* Garantir que fique acima de outros elementos */
+  z-index: var(--z-index-sidebar);
   
-  /* Estilo Visual */
   background: var(--color-card-bg);
   border-right: 1px solid var(--color-border);
   box-shadow: var(--shadow-subtle);
   
-  /* Flex Layout */
   display: flex;
   flex-direction: column;
-  gap: 20px; /* Espaçamento geral entre elementos */
+  gap: 20px; 
 }
 
-/* ==================================== */
-/* 3. LOGO/IMAGEM */
-/* ==================================== */
+
 .sidebar img {
   width: 140px;
   margin: 0 auto 20px;
@@ -92,9 +83,7 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* ==================================== */
-/* 4. MENU DE NAVEGAÇÃO */
-/* ==================================== */
+
 .menu {
   display: flex;
   flex-direction: column;
@@ -108,35 +97,30 @@ body {
   padding: 12px 14px;
   border-radius: var(--radius-default);
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--bg-light);
   font-size: 0.95rem;
   font-weight: 500;
-  
+    background: var(--color-primary);
+
   transition: all var(--transition-speed) ease;
 }
 
-/* Estado de HOVER */
-.menu a:not(.btn-sair):hover { /* Aplicar hover em todos exceto o botão SAIR */
+.menu a:not(.btn-sair):hover { 
   background: var(--color-background-light);
   color: var(--color-primary);
-  /* Leve elevação no hover */
   transform: translateX(4px); 
 }
 
-/* Estado ATIVO */
 .menu a.active {
   background: var(--color-primary);
-  color: var(--color-white); /* Assumindo branco para texto sobre cor primária */
+   
   font-weight: 600;
-  box-shadow: 0 4px 8px rgba(61, 148, 170, 0.3); /* Sombra para destacar o link ativo */
+  box-shadow: 0 4px 8px rgba(61, 148, 170, 0.3); 
 }
 
-/* ==================================== */
-/* 5. BOTÃO SAIR (Fixo no final) */
-/* ==================================== */
+
 .btn-sair {
-  /* Estilo base */
-  margin-top: auto; /* Empurra o botão para o fundo da sidebar */
+  margin-top: auto; 
   padding: 12px 14px;
   border-radius: var(--radius-default);
   text-decoration: none;

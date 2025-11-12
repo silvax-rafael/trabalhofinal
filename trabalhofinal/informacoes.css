@@ -57,20 +57,15 @@ body {
   bottom: 0;
   z-index: var(--z-index-sidebar); 
   
-  /* Estilo Visual */
-  background: var(--color-card-bg); /* Usei card-bg aqui */
+  background: var(--color-card-bg);
   border-right: 1px solid var(--color-border);
-  box-shadow: var(--shadow-subtle); /* Usei shadow-subtle */
+  box-shadow: var(--shadow-subtle); 
   
-  /* Flex Layout */
   display: flex;
   flex-direction: column;
   gap: 20px; 
 }
 
-/* ==================================== */
-/* 2. LOGO/IMAGEM */
-/* ==================================== */
 .sidebar img {
   width: 140px;
   margin: 0 auto 20px;
@@ -79,74 +74,63 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* ==================================== */
-/* 3. MENU DE NAVEGAÇÃO (Links) */
-/* ==================================== */
+
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 8px; /* Espaçamento menor para os links */
-  flex-grow: 1; /* Ocupa o espaço restante */
+  gap: 8px; 
+  flex-grow: 1;
 }
 
-/* Estilo base dos links (a) */
 .menu a {
   padding: 12px 14px;
   border-radius: var(--radius-default);
   text-decoration: none;
-  color: var(--color-text);
+  color: var(--color-white);
   font-size: 0.95rem;
   font-weight: 500;
   background: var(--color-primary);
   transition: all var(--transition-speed) ease;
 }
 
-/* Estado de HOVER (Links) */
+
 .menu a:hover {
-  /* Usando a cor primary-light como fundo sutil */
+ 
   background: var(--color-white); 
-  color: var(--color-primary); /* Texto muda para a cor principal */
+  color: var(--color-primary-dark); 
   transform: translateX(4px); 
 }
 
-/* Estado ATIVO (Links) */
+
 .menu a.active {
   
-  color: var(--color-white); 
+  
   font-weight: 600;
-  /* Sombra para destacar o link ativo */
   box-shadow: 0 4px 8px rgba(77, 207, 232, 0.3); 
 }
 
-/* ==================================== */
-/* 4. BOTÃO SAIR (Form e Button) */
-/* ==================================== */
 
-/* Oculta o formulário de ser um item flexível no menu */
 .menu form {
-    margin-top: auto; /* Empurra o formulário (e o botão) para o fundo */
+    margin-top: auto; 
 }
 
-/* Estilo do botão */
 .btn-sair {
-  /* Reset de button (importante para consistência) */
   appearance: none;
   -webkit-appearance: none;
   
-  /* Estilo base */
-  width: 100%; /* Garante que ocupe toda a largura */
+  width: 100%; 
   padding: 12px 14px;
   border-radius: var(--radius-default);
   border: none;
   
-  /* Uso de variáveis para cor */
+
   background: var(--color-error);
   color: var(--color-white);
   
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
-  text-align: center; /* Garantir que o texto esteja centralizado se não for 100% de largura */
+  text-align: center; 
   
   transition: all var(--transition-speed) ease;
 }
