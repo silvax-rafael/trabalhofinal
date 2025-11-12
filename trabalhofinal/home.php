@@ -105,18 +105,18 @@ $result = $stmt->get_result();
                   if ($status_text != 'Tomado') {
                       echo "
                         <form action='tomar_medicamento.php' method='POST' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='usuario_id' value='{$row['usuario_id']}'>
                           <button type='submit' class='btn btn-primary'>💊 Tomar</button>
                         </form>";
                   }
 
                   echo "
                         <form action='editar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='usuario_id' value='{$row['usuario_id']}'>
                           <button type='submit' class='btn'>✏️ Editar</button>
                         </form>
                         <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='usuario_id' value='{$row['usuario_id']}'>
                           <button type='submit' class='btn btn-danger'>🗑️ Excluir</button>
                         </form>
                       </div>
