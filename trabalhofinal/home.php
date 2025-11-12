@@ -1,26 +1,51 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: loginform.php");
+
+
+if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
+    header('Location: login.php'); 
     exit;
 }
 
 $host = "localhost";
-$db   = "controle_medicamento";
-$user = "root";
-$pass = "";
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
+$username = "root";
+$password = "";
+$dbname = "controle_medicamento";
 
+// Tentativa de conexão
+$conn = new mysqli($localhost, $username, $password, $dbname);
+
+// Verifica a conexão
+if ($conn->connect_error) {
+    die('ERRO FATAL NA CONEXÃO COM O BANCO DE DADOS: ' . $conn->connect_error);
+}
+
+// A CHAVE AQUI DEVE SER IGUAL À CHAVE DO SEU LOGIN
 $usuario_id = $_SESSION['usuario_id'];
-$sql = "SELECT * FROM medicamentos WHERE id = ? ORDER BY data_cadastro DESC";
+
+// --- FIM DA ARRANJADA NA SESSÃO E CONEXÃO ---
+
+// CORREÇÃO FINAL NA CONSULTA
+$sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY horario ASC, data_cadastro DESC";
 $stmt = $conn->prepare($sql);
+
+if (!$stmt) {
+    die('ERRO FATAL NA PREPARAÇÃO DO SQL: ' . $conn->error);
+}
+
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
 $hora_atual = new DateTime();
-?>
 
+// 💡 BLOC DE DEBUG FINAL 💡
+echo "<h2>--- DEBUG DA LISTAGEM ---</h2>";
+echo "ID do Usuário sendo buscado: <strong>" . htmlspecialchars($usuario_id) . "</strong><br>";
+echo "Consulta SQL: <strong>" . htmlspecialchars($sql) . "</strong><br>";
+echo "Medicamentos encontrados (Linhas): <strong>" . htmlspecialchars($result->num_rows) . "</strong><br>";
+echo "------------------------------<br>";
+// 💡 FIM DO DEBUG 💡
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>

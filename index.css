@@ -27,7 +27,7 @@
 }
 
 body {
-  background: var(--color-background);
+  background: linear-gradient(180deg, #3d94aaff, var(--color-white));
   color: var(--color-text-dark);
   line-height: 1.6; /* Aumentei para melhorar a legibilidade */
   padding: 20px;

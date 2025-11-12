@@ -31,7 +31,7 @@ if(isset($_POST['id'])) {
 // Formulário de edição
 if(isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $stmt = $conn->prepare("SELECT * FROM medicamentos WHERE id=? AND usuario_id=?");
+    $stmt = $conn->prepare("SELECT * FROM medicamentos WHERE id=? AND id=?");
     $stmt->bind_param("ii", $id, $_SESSION['usuario_id']);
     $stmt->execute();
     $res = $stmt->get_result();

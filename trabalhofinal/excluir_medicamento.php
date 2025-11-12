@@ -15,7 +15,7 @@ if(isset($_GET['id'])) {
     $conn = new mysqli($host, $user, $pass, $db);
     if ($conn->connect_error) { die("Conexão falhou: " . $conn->connect_error); }
 
-    $stmt = $conn->prepare("DELETE FROM medicamentos WHERE id=? AND usuario_id=?");
+    $stmt = $conn->prepare("DELETE FROM medicamentos WHERE id=? AND id=?");
     $stmt->bind_param("ii", $id, $_SESSION['usuario_id']);
     $stmt->execute();
     $stmt->close();

@@ -1,3 +1,47 @@
+<?php
+// 1. INICIA A SESSÃO NO TOPO
+session_start();
+
+// 2. VERIFICA SE O USUÁRIO ESTÁ LOGADO ANTES DE TUDO
+if (!isset($_SESSION['usuario_id'])) {
+    // Se não estiver logado, redireciona para o login.
+    header("Location: loginform.php");
+    exit;
+}
+
+// ... Código de Conexão com o Banco de Dados (se não estiver em um arquivo separado) ...
+
+// O seu bloco POST:
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // 3. RECUPERA O ID DO USUÁRIO DA SESSÃO
+    $usuario_id = $_SESSION['usuario_id']; // <-- USE ESTA LINHA SIMPLES
+
+    $nome    = $_POST['nomedomedicamento'];
+    $dose    = $_POST['dose'];
+    $horario = $_POST['horario'];
+
+    // 4. CONSULTA SQL CORRIGIDA
+    $sql_insert = "INSERT INTO medicamentos (nome, dose, horario, usuario_id) VALUES (?, ?, ?, ?)"; 
+    $stmt = $conn->prepare($sql_insert);
+    
+    // 5. BIND PARAM (Se 'usuario_id' for INT)
+    $stmt->bind_param("sssi", $nome, $dose, $horario, $usuario_id);
+
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = 'Medicamento cadastrado com sucesso!';
+        header("Location: home.php");
+        exit;
+    } else {
+        $_SESSION['error_message'] = 'Erro ao cadastrar: ' . $stmt->error;
+        header("Location: novomedicamento.php"); 
+        exit;
+    }
+
+    $stmt->close();
+}
+// ... Restante do HTML do formulário de cadastro ...
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
