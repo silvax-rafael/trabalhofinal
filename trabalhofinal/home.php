@@ -6,26 +6,17 @@ if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
     exit;
 }
 
-// Ajusta fuso horário
 date_default_timezone_set('America/Sao_Paulo');
 
-$host = "localhost";
-$username = "root";
-$password = "";
-$dbname = "controle_medicamento";
-
-// Conexão com o banco
-$conn = new mysqli($host, $username, $password, $dbname);
+$conn = new mysqli("localhost", "root", "", "controle_medicamento");
 if ($conn->connect_error) {
     die('ERRO FATAL NA CONEXÃO COM O BANCO DE DADOS: ' . $conn->connect_error);
 }
 
 $usuario_id = $_SESSION['usuario_id'];
 
-// Busca medicamentos do usuário
 $sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY horario ASC, data_cadastro DESC";
 $stmt = $conn->prepare($sql);
-if (!$stmt) die('ERRO FATAL NA PREPARAÇÃO DO SQL: ' . $conn->error);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -54,9 +45,9 @@ $result = $stmt->get_result();
 
 <main class="main">
   <div class="card">
-    <div class="header" style="display:flex; justify-content:space-between; align-items:center;">
+    <div class="header">
       <div class="title">Controle de Medicação</div>
-      <form action="novomedicamento.php" method="GET" style="display:inline;">
+      <form action="novomedicamento.php" method="GET">
           <button type="submit" class="btn btn-primary">+ Novo Medicamento</button>
       </form>
     </div>
@@ -65,11 +56,11 @@ $result = $stmt->get_result();
       <table>
         <thead>
           <tr>
-            <th>Nome do medicamento</th>
+            <th>Nome</th>
             <th>Dosagem</th>
             <th>Horário</th>
             <th>Status</th>
-            <th style="width: 280px;">Ação</th>
+            <th style="width:280px;">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -77,14 +68,13 @@ $result = $stmt->get_result();
           if ($result->num_rows > 0) {
               while($row = $result->fetch_assoc()) {
 
-                  // Define status: qualquer medicamento com ultima_tomada preenchido é "Tomado"
                   if ($row['ultima_tomada']) {
                       $status_class = 'ok';
                       $status_text = 'Tomado';
                   } else {
                       $hora_atual = new DateTime();
-                      $horario_medicamento = new DateTime($row['horario']);
-                      if ($hora_atual > $horario_medicamento) {
+                      $hora_medicamento = new DateTime($row['horario']);
+                      if ($hora_atual > $hora_medicamento) {
                           $status_class = 'atrasado';
                           $status_text = 'Atrasado';
                       } else {
@@ -101,36 +91,34 @@ $result = $stmt->get_result();
                     <td>
                       <div class='actions'>";
 
-                  // Mostra botão “Tomar” só se ainda não foi tomado
                   if ($status_text != 'Tomado') {
                       echo "
                         <form action='tomar_medicamento.php' method='POST' style='display:inline;'>
-                          <input type='hidden' name='usuario_id' value='{$row['usuario_id']}'>
+                          <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn btn-primary'>💊 Tomar</button>
                         </form>";
                   }
 
                   echo "
                         <form action='editar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='usuario_id' value='{$row['usuario_id']}'>
+                          <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn'>✏️ Editar</button>
                         </form>
+
                         <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='usuario_id' value='{$row['usuario_id']}'>
+                          <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn btn-danger'>🗑️ Excluir</button>
                         </form>
+
                       </div>
                     </td>
                   </tr>";
               }
           } else {
               echo "<tr>
-                      <td colspan='5' style='text-align:center; color: var(--muted); padding: 20px;'>
-                          Nenhum medicamento cadastrado
-                      </td>
+                      <td colspan='5' style='text-align:center; color:gray;'>Nenhum medicamento cadastrado</td>
                     </tr>";
           }
-          $conn->close();
           ?>
         </tbody>
       </table>
