@@ -21,7 +21,6 @@ if ($conn->connect_error) {
     die("ERRO DE CONEXÃO: " . $conn->connect_error);
 }
 
-// 4️⃣ PROCESSA O FORMULÁRIO DE CADASTRO
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $usuario_id = $_SESSION['usuario_id'];
     $nome    = $_POST['nomedomedicamento'];
