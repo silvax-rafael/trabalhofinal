@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
-    header('Location: login.php'); 
+    header('Location: login.php');
     exit;
 }
 
@@ -66,14 +66,16 @@ $result = $stmt->get_result();
         <tbody>
           <?php
           if ($result->num_rows > 0) {
-              while($row = $result->fetch_assoc()) {
+              while ($row = $result->fetch_assoc()) {
 
+                  // Status
                   if ($row['ultima_tomada']) {
                       $status_class = 'ok';
                       $status_text = 'Tomado';
                   } else {
                       $hora_atual = new DateTime();
                       $hora_medicamento = new DateTime($row['horario']);
+
                       if ($hora_atual > $hora_medicamento) {
                           $status_class = 'atrasado';
                           $status_text = 'Atrasado';
@@ -91,22 +93,24 @@ $result = $stmt->get_result();
                     <td>
                       <div class='actions'>";
 
+                  // Botão TOMAR
                   if ($status_text != 'Tomado') {
                       echo "
                         <form action='tomar_medicamento.php' method='POST' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
                           <button type='submit' class='btn btn-primary'>💊 Tomar</button>
                         </form>";
                   }
 
+                  // Botão EDITAR
                   echo "
                         <form action='editar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
                           <button type='submit' class='btn'>✏️ Editar</button>
                         </form>
 
                         <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
                           <button type='submit' class='btn btn-danger'>🗑️ Excluir</button>
                         </form>
 

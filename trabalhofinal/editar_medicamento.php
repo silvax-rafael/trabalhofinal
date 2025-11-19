@@ -3,7 +3,7 @@ session_start();
 
 // Garante que o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
-    header("Location: loginform.php");
+    header("Location: login.php");
     exit;
 }
 
@@ -18,13 +18,13 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
     die("<p style='color:red; text-align:center;'>Erro: ID do medicamento não informado.</p>");
 }
 
-$id = intval($_GET['id']);
+$medicamento_id = intval($_GET['id']);
 $usuario_id = $_SESSION['usuario_id'];
 
 // Busca os dados do medicamento do usuário logado
-$sql = "SELECT * FROM medicamentos WHERE id = ? AND usuario_id = ?";
+$sql = "SELECT * FROM medicamentos WHERE medicamento_id = ? AND usuario_id = ?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("ii", $id, $usuario_id);
+$stmt->bind_param("ii", $medicamento_id, $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -41,8 +41,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $horario = $_POST['horario'] ?? '';
 
     if (!empty($nome) && !empty($dose) && !empty($horario)) {
-        $update = $conn->prepare("UPDATE medicamentos SET nome = ?, dose = ?, horario = ? WHERE id = ? AND usuario_id = ?");
-        $update->bind_param("sssii", $nome, $dose, $horario, $id, $usuario_id);
+        
+        $update = $conn->prepare("
+            UPDATE medicamentos
+            SET nome = ?, dose = ?, horario = ?
+            WHERE medicamento_id = ? AND usuario_id = ?
+        ");
+        
+        $update->bind_param("sssii", $nome, $dose, $horario, $medicamento_id, $usuario_id);
 
         if ($update->execute()) {
             header("Location: home.php");
@@ -73,11 +79,34 @@ $conn->close();
 
 <div class="card" style="max-width: 600px; margin: 80px auto; padding: 30px;">
     <h2 style="text-align:center;">Editar Medicamento</h2>
+
     <form action="" method="POST">
-        <input type="text" name="nome" placeholder="Nome do medicamento" required value="<?php echo htmlspecialchars($medicamento['nome']); ?>"><br><br>
-        <input type="text" name="dose" placeholder="Dosagem" required value="<?php echo htmlspecialchars($medicamento['dose']); ?>"><br><br>
-        <input type="datetime-local" name="horario" required value="<?php echo date('Y-m-d\TH:i', strtotime($medicamento['horario'])); ?>"><br><br>
+
+        <input type="text" 
+               name="nome" 
+               placeholder="Nome do medicamento" 
+               required 
+               value="<?php echo htmlspecialchars($medicamento['nome']); ?>">
+
+        <br><br>
+
+        <input type="text" 
+               name="dose" 
+               placeholder="Dosagem" 
+               required 
+               value="<?php echo htmlspecialchars($medicamento['dose']); ?>">
+
+        <br><br>
+
+        <input type="datetime-local" 
+               name="horario" 
+               required 
+               value="<?php echo date('Y-m-d\TH:i', strtotime($medicamento['horario'])); ?>">
+
+        <br><br>
+
         <button type="submit" class="btn btn-primary" style="width:100%;">Salvar Alterações</button>
+
     </form>
 </div>
 
