@@ -65,6 +65,7 @@ $hora_atual = new DateTime(); // hora atual
           <?php
           if ($result->num_rows > 0) {
               while($row = $result->fetch_assoc()) {
+                  
                   $horario_medicamento = new DateTime($row['horario']);
 
                   // Lógica de status considerando ultima_tomada e horario
@@ -101,15 +102,15 @@ $hora_atual = new DateTime(); // hora atual
                     <td>
                       <div class='actions'>
                         <form action='tomar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
+                          <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn btn-primary'>Tomar</button>
                         </form>
                         <form action='editar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
+                          <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn'>Editar</button>
                         </form>
                         <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
+                          <input type='hidden' name='id' value='{$row['id']}'>
                           <button type='submit' class='btn btn-danger'>Excluir</button>
                         </form>
                       </div>

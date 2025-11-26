@@ -13,13 +13,15 @@ if ($conn->connect_error) {
     die('ERRO FATAL NA CONEXÃO COM O BANCO DE DADOS: ' . $conn->connect_error);
 }
 
-$usuario_id = $_SESSION['usuario_id'];
+$usuario_id = (int) $_SESSION['usuario_id'];
 
-$sql = "SELECT * FROM medicamentos WHERE usuario_id = ? ORDER BY horario ASC, data_cadastro DESC";
+$sql = "SELECT id, nome, dose, horario, ultima_tomada, data_cadastro FROM medicamentos WHERE usuario_id = ? ORDER BY horario ASC, data_cadastro DESC";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -65,17 +67,20 @@ $result = $stmt->get_result();
         </thead>
         <tbody>
           <?php
-          if ($result->num_rows > 0) {
+          $hora_atual = new DateTime();
+
+          if ($result && $result->num_rows > 0) {
               while ($row = $result->fetch_assoc()) {
 
-                  // Status
-                  if ($row['ultima_tomada']) {
+                  // Garante que exista o campo id (chave primária)
+                  $med_id = isset($row['id']) ? (int)$row['id'] : 0;
+
+                  // Determina status
+                  if (!empty($row['ultima_tomada'])) {
                       $status_class = 'ok';
                       $status_text = 'Tomado';
                   } else {
-                      $hora_atual = new DateTime();
                       $hora_medicamento = new DateTime($row['horario']);
-
                       if ($hora_atual > $hora_medicamento) {
                           $status_class = 'atrasado';
                           $status_text = 'Atrasado';
@@ -85,33 +90,38 @@ $result = $stmt->get_result();
                       }
                   }
 
+                  // Escapar saída
+                  $nome = htmlspecialchars($row['nome'], ENT_QUOTES, 'UTF-8');
+                  $dose = htmlspecialchars($row['dose'], ENT_QUOTES, 'UTF-8');
+                  $horario_format = !empty($row['horario']) ? date("d/m/Y H:i", strtotime($row['horario'])) : '—';
+
                   echo "<tr>
-                    <td>{$row['nome']}</td>
-                    <td>{$row['dose']}</td>
-                    <td>".date("d/m/Y H:i", strtotime($row['horario']))."</td>
+                    <td>{$nome}</td>
+                    <td>{$dose}</td>
+                    <td>{$horario_format}</td>
                     <td><span class='badge $status_class'>$status_text</span></td>
                     <td>
                       <div class='actions'>";
 
-                  // Botão TOMAR
+                  // Botão TOMAR (apenas se não estiver marcado como tomado)
                   if ($status_text != 'Tomado') {
                       echo "
-                        <form action='tomar_medicamento.php' method='POST' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
+                        <form action='tomar_medicamento.php' method='POST' style='display:inline; margin-right:6px;'>
+                          <input type='hidden' name='id' value='{$med_id}'>
                           <button type='submit' class='btn btn-primary'>💊 Tomar</button>
                         </form>";
                   }
 
                   // Botão EDITAR
                   echo "
-                        <form action='editar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
+                        <form action='editar_medicamento.php' method='GET' style='display:inline; margin-right:6px;'>
+                          <input type='hidden' name='id' value='{$med_id}'>
                           <button type='submit' class='btn'>✏️ Editar</button>
                         </form>
 
-                        <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
-                          <button type='submit' class='btn btn-danger'>🗑️ Excluir</button>
+                        <form action='excluir_medicamento.php' method='POST' style='display:inline;'>
+                          <input type='hidden' name='id' value='{$med_id}'>
+                          <button type='submit' class='btn btn-danger' onclick=\"return confirm('Confirma exclusão?');\">🗑️ Excluir</button>
                         </form>
 
                       </div>
@@ -123,6 +133,10 @@ $result = $stmt->get_result();
                       <td colspan='5' style='text-align:center; color:gray;'>Nenhum medicamento cadastrado</td>
                     </tr>";
           }
+
+          // fecha statement e conexão
+          $stmt->close();
+          $conn->close();
           ?>
         </tbody>
       </table>

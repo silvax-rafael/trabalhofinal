@@ -1,111 +1,87 @@
 <?php
 session_start();
-if (!isset($_SESSION['id'])) {
+
+// Verifica login
+if (!isset($_SESSION['usuario_id']) || empty($_SESSION['usuario_id'])) {
     header("Location: login.php");
     exit();
 }
 
-include 'conexao.php';
+// Conexão com o banco de dados
+$host = "localhost";
+$user = "root";
+$pass = "";
+$dbname = "controle_medicamento";
 
-$user_id = $_SESSION['id'];
+$conn = new mysqli($host, $user, $pass, $dbname);
 
-// Buscar todos os medicamentos do usuário
-$sql = "SELECT id, nome, horario, ultima_tomada FROM medicamentos WHERE user_id = ?";
+if ($conn->connect_error) {
+    die("Erro na conexão: " . $conn->connect_error);
+}
+
+$usuario_id = $_SESSION['usuario_id'];
+
+$sql = "SELECT nome, horario, ultima_tomada 
+        FROM medicamentos 
+        WHERE usuario_id = ?
+        ORDER BY horario ASC";
+
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+$stmt->bind_param("i", $usuario_id);
 $stmt->execute();
 $result = $stmt->get_result();
-
-$hora_atual = new DateTime();
-
-// contadores
-$pendentes = 0;
-$atrasados = 0;
-$tomados = 0;
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatório</title>
-    <link rel="stylesheet" href="styles.css">
-
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top:20px; }
-        th, td { padding: 12px; border-bottom: 1px solid #ccc; text-align:left; }
-        .ok { color: green; font-weight: bold; }
-        .pendente { color: orange; font-weight: bold; }
-        .atrasado { color: red; font-weight: bold; }
-        .card { padding:20px; border-radius:10px; box-shadow:0 0 10px #ccc; margin-bottom:20px; }
-    </style>
+    <link rel="stylesheet" href="relatorio.css">
 </head>
 <body>
 
-<h2>Relatório de Medicamentos</h2>
+<aside class="sidebar">
+    <img src="fundo.png" alt="Logo Sistema">
+    <nav class="menu">
+        <a href="home.php">🏠 HOME</a>
+        <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
+        <a href="relatorio.php" class="active">📊 RELATÓRIO</a>
+        <a href="sobre.php">ℹ️ SOBRE</a>
+        <a href="logout.php" class="btn-sair">🚪 SAIR</a>
+    </nav>
+</aside>
 
-<div class="card">
-    <h3>Status geral:</h3>
-    <p><strong>Em dia:</strong> <?= $tomados ?></p>
-    <p><strong>Pendentes:</strong> <?= $pendentes ?></p>
-    <p><strong>Atrasados:</strong> <?= $atrasados ?></p>
-</div>
+<main>
+    <h2>Relatório de Medicamentos</h2>
 
-<table>
-    <tr>
-        <th>Medicamento</th>
-        <th>Horário</th>
-        <th>Última Tomada</th>
-        <th>Status</th>
-    </tr>
+    <div class="card">
+        <h3>Lista de medicamentos cadastrados:</h3>
+    </div>
 
-    <?php while ($row = $result->fetch_assoc()): ?>
-
-        <?php
-        $horario_medicamento = new DateTime($row['horario']);
-
-        // Verificar status correto
-        if (!empty($row['ultima_tomada'])) {
-
-            // Se já tomou → EM DIA
-            $status_class = 'ok';
-            $status_text  = 'Em dia';
-            $tomados++;
-
-        } else {
-
-            if ($hora_atual > $horario_medicamento) {
-                // Horário passou → ATRASADO
-                $status_class = 'atrasado';
-                $status_text  = 'Atrasado';
-                $atrasados++;
-            } else {
-                // Antes do horário → PENDENTE
-                $status_class = 'pendente';
-                $status_text  = 'Pendente';
-                $pendentes++;
-            }
-        }
-        ?>
-
-        <tr>
-            <td><?= $row['nome'] ?></td>
-            <td><?= date("H:i", strtotime($row['horario'])) ?></td>
-            <td>
-                <?= 
-                    !empty($row['ultima_tomada']) 
-                    ? date("d/m/Y H:i", strtotime($row['ultima_tomada'])) 
-                    : "—"
-                ?>
-            </td>
-            <td class="<?= $status_class ?>"><?= $status_text ?></td>
-        </tr>
-
-    <?php endwhile; ?>
-
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th>Medicamento</th>
+                <th>Horário</th>
+                <th>Última Tomada</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php while ($row = $result->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['nome']) ?></td>
+                    <td><?= date("H:i", strtotime($row['horario'])) ?></td>
+                    <td>
+                        <?= !empty($row['ultima_tomada']) 
+                                ? date("d/m/Y H:i", strtotime($row['ultima_tomada'])) 
+                                : "—" ?>
+                    </td>
+                </tr>
+            <?php endwhile; ?>
+        </tbody>
+    </table>
+</main>
 
 </body>
 </html>
