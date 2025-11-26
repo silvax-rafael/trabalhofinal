@@ -36,7 +36,7 @@ $hora_atual = new DateTime(); // hora atual
     <a href="home.php" class="active">🏠 HOME</a>
     <a href="informacoes.php">👤 INFORMAÇÕES PESSOAIS</a>
     <a href="relatorio.php">📊 RELATÓRIO</a>
-    <a href="#">ℹ️ SOBRE</a>
+    <a href="sobre.php">ℹ️ SOBRE</a>
     <form action="logout.php" method="POST" >
       <button type="submit" class="btn btn-danger" >🚪 SAIR</button>
     </form>
@@ -101,15 +101,15 @@ $hora_atual = new DateTime(); // hora atual
                     <td>
                       <div class='actions'>
                         <form action='tomar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
                           <button type='submit' class='btn btn-primary'>Tomar</button>
                         </form>
                         <form action='editar_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
                           <button type='submit' class='btn'>Editar</button>
                         </form>
                         <form action='excluir_medicamento.php' method='GET' style='display:inline;'>
-                          <input type='hidden' name='id' value='{$row['id']}'>
+                          <input type='hidden' name='id' value='{$row['medicamento_id']}'>
                           <button type='submit' class='btn btn-danger'>Excluir</button>
                         </form>
                       </div>
